@@ -6,14 +6,16 @@
 //
 
 import SwiftUI
+import Charts
 
 struct ContentView: View {
+    let networkManager = NetworkManager()
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            
+        }
+        .onAppear {
+            networkManager.getMockOneWeek4hIntervalData()
         }
         .padding()
     }
