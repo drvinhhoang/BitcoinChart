@@ -15,3 +15,27 @@ extension Collection {
         }
     }
 }
+
+extension Decimal {
+    var asDouble: Double { Double(truncating: self as NSNumber) }
+    
+    var doubleValue:Double {
+        return NSDecimalNumber(decimal:self).doubleValue
+    }
+}
+
+extension Decimal {
+    var currency: String { self.formatted(.currency(code: "USD")) }
+}
+
+extension Date {
+    func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
+        return calendar.dateComponents(Set(components), from: self)
+    }
+
+    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
+        return calendar.component(component, from: self)
+    }
+}
+
+

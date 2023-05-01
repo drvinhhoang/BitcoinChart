@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias Candlestick = [CoinProperty]
+typealias CoinData = [CoinProperty]
 
 enum CoinProperty: Codable {
     case integer(Int)
@@ -23,7 +23,7 @@ enum CoinProperty: Codable {
             self = .string(x)
             return
         }
-        throw DecodingError.typeMismatch(Candlestick.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for WelcomeElement"))
+        throw DecodingError.typeMismatch(CoinData.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for WelcomeElement"))
     }
     
     func encode(to encoder: Encoder) throws {
@@ -57,58 +57,85 @@ extension CoinProperty {
     }
 }
 
-extension Candlestick {
-    var kLineOpenTime: Int? {
+extension CoinData {
+    var openTime: Int? {
         return self[safelyIndex: 0]?.integerValue
     }
     
-    var openPrice: String? {
-        return self[safelyIndex: 1]?.stringValue
+    var open: Decimal? {
+        if let str = self[safelyIndex: 1]?.stringValue {
+            return Decimal(string: str)
+        }
+        return nil
     }
     
-    var highPrice: String? {
-        return self[safelyIndex: 2]?.stringValue
+    var high: Decimal? {
+        if let str = self[safelyIndex: 2]?.stringValue {
+            return Decimal(string: str)
+        }
+        return nil
     }
     
-    var lowPrice: String? {
-        return self[safelyIndex: 3]?.stringValue
+    var low: Decimal? {
+        if let str = self[safelyIndex: 3]?.stringValue {
+            return Decimal(string: str)
+        }
+        return nil
     }
     
-    var closePrice: String? {
-        return self[safelyIndex: 4]?.stringValue
+    var close: Decimal? {
+        if let str = self[safelyIndex: 4]?.stringValue {
+            return Decimal(string: str)
+        }
+        return nil
     }
     
-    var volume: String? {
-        return self[safelyIndex: 5]?.stringValue
+    var closeTime: Decimal? {
+        if let intVal = self[safelyIndex: 6]?.integerValue {
+            return Decimal(intVal)
+        }
+        return nil
     }
     
-    var kLineCloseTime: Int? {
-        return self[safelyIndex: 6]?.integerValue
-    }
-    
-    var quoteAssetVolume: String? {
-        return self[safelyIndex: 7]?.stringValue
-    }
-    
-    var numberOfTrades: Int? {
-        return self[safelyIndex: 8]?.integerValue
-    }
-    
-    var takerBuyBaseAssetVolume: String? {
-        return self[safelyIndex: 9]?.stringValue
-    }
-    
-    var takerBuyQuoteAssetVolume: String? {
-        return self[safelyIndex: 10]?.stringValue
+    var candleStick: CandleStick? {
+        guard let open, let close, let high, let low, let openTime else {
+            return nil
+        }
+        return CandleStick(timestamp: Date(timeIntervalSince1970: (Double(openTime)/1000)),
+                                      open: open,
+                                      close: close,
+                                      high: high,
+                                      low: low)
     }
 }
 
-struct CandleStickDisplayData {
-    var kLineOpenTime: Date
-    var kLineCloseTime: Date
-    var openPrice: String
-    var highPrice: String
-    var lowPrice: String
-    var closePrice: String
-    var volume: String
+struct CandleStick: Identifiable {
+    let id = UUID()
+    let timestamp: Date
+    let open: Decimal
+    let close: Decimal
+    let high: Decimal
+    let low: Decimal
+}
+
+extension CandleStick {
+    var isClosingHigher: Bool {
+        self.open < self.close
+    }
+    
+    var accessibilityTrendSummary: String {
+        "Price movement: \(isClosingHigher ? "up" : "down")"
+    }
+    
+    var accessibilityDescription: String {
+        return "Open: \(self.open.currency), Close: \(self.close.currency), High: \(self.high.currency), Low: \(self.low.currency)"
+    }
+}
+
+func getLowerBound(_ arr: [CandleStick]) -> Decimal {
+    return arr.min(by: { $0.low < $1.low })?.low ?? 0
+}
+
+func getUpperBound(_ arr: [CandleStick]) -> Decimal {
+    return arr.max(by: { $0.low < $1.low })?.high ?? 0
 }

@@ -9,17 +9,24 @@ import SwiftUI
 import Charts
 
 struct ContentView: View {
-    let networkManager = NetworkManager()
+    @StateObject var networkManager = NetworkManager()
     var body: some View {
         VStack {
-            
+            CandleStickChart(prices: networkManager.items)
         }
         .onAppear {
-            networkManager.getMockOneWeek4hIntervalData()
+            Task {
+                try await networkManager.callApiCoinData()
+            }
         }
-        .padding()
     }
+ 
 }
+
+
+
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

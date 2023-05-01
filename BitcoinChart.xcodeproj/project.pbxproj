@@ -17,6 +17,8 @@
 		5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56D29FE506D00765C35 /* Websocket.swift */; };
 		5AC5A57029FE50E600765C35 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56F29FE50E600765C35 /* Coin.swift */; };
 		5AC5A57229FE51AC00765C35 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A57129FE51AC00765C35 /* NetworkManager.swift */; };
+		5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */; };
+		5AD2BB6229FF441100CBC4A2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB6129FF441100CBC4A2 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		5AC5A56D29FE506D00765C35 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
 		5AC5A56F29FE50E600765C35 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
 		5AC5A57129FE51AC00765C35 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChart.swift; sourceTree = "<group>"; };
+		5AD2BB6129FF441100CBC4A2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +48,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A664B8529FED983005239B6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		5AC5A54929FE4D1B00765C35 = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +75,7 @@
 		5AC5A55429FE4D1B00765C35 /* BitcoinChart */ = {
 			isa = PBXGroup;
 			children = (
+				5A664B8529FED983005239B6 /* Views */,
 				5AC5A56C29FE506200765C35 /* Managers */,
 				5AC5A56929FE4F8100765C35 /* Helpers */,
 				5AC5A56629FE4F0F00765C35 /* Models */,
@@ -96,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				5AC5A56A29FE4F8D00765C35 /* Extensions.swift */,
+				5AD2BB6129FF441100CBC4A2 /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -125,6 +139,8 @@
 			dependencies = (
 			);
 			name = BitcoinChart;
+			packageProductDependencies = (
+			);
 			productName = BitcoinChart;
 			productReference = 5AC5A55229FE4D1B00765C35 /* BitcoinChart.app */;
 			productType = "com.apple.product-type.application";
@@ -153,6 +169,8 @@
 				Base,
 			);
 			mainGroup = 5AC5A54929FE4D1B00765C35;
+			packageReferences = (
+			);
 			productRefGroup = 5AC5A55329FE4D1B00765C35 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -181,8 +199,10 @@
 			files = (
 				5AC5A56B29FE4F8D00765C35 /* Extensions.swift in Sources */,
 				5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */,
+				5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */,
 				5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */,
 				5AC5A56829FE4F3A00765C35 /* Candelstick.swift in Sources */,
+				5AD2BB6229FF441100CBC4A2 /* Constants.swift in Sources */,
 				5AC5A57229FE51AC00765C35 /* NetworkManager.swift in Sources */,
 				5AC5A56429FE4E8B00765C35 /* MockData.swift in Sources */,
 				5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */,
@@ -323,6 +343,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -352,6 +373,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

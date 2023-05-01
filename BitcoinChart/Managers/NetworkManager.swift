@@ -14,7 +14,7 @@ enum NetworkError: Error {
 
 class NetworkManager: ObservableObject {
     
-    @Published var candleStickDisplayData: [CandleStickDisplayData] = []
+    @Published var items: [CandleStick] = []
     
     func request() throws -> URLRequest {
         var components = URLComponents()
@@ -22,7 +22,7 @@ class NetworkManager: ObservableObject {
         components.host = "data.binance.com"
         components.path = "/api/v3/klines"
         components.queryItems = [ "symbol": "BTCUSDT",
-                                  "interval": "4h"].map { URLQueryItem(name: $0, value: $1) }
+                                  "interval": "1d"].map { URLQueryItem(name: $0, value: $1) }
         guard let url = components.url else { throw NetworkError.invalidURL }
         var urlRequest = URLRequest(url: url)
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -31,18 +31,28 @@ class NetworkManager: ObservableObject {
     
     func callApiCoinData() async throws {
         let request = try? request()
-        let (data, res) = try await URLSession.shared.data(for: request!)
-        
-        let decodedData = try? JSONDecoder().decode([Candlestick].self, from: data)
-        //    print(String(data: data, encoding: .utf8), res)
-        print(decodedData.flatMap({ arr in
-            arr.compactMap(\.closePrice)
-        }))
+
+        let url = URL(string: "https://data.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&endTime=1682904305000&limit=30")!
+        let (data, _) = try await URLSession.shared.data(from: url)
+
+        do {
+            let decodedData = try JSONDecoder().decode([CoinData].self, from: data)
+            print(decodedData)
+            let chartData: [CandleStick] = decodedData.compactMap(\.candleStick)
+            await MainActor.run {
+                self.items = chartData
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+
     }
     
-    init() {
-        self.candleStickDisplayData = getMockOneWeek4hIntervalData()
-    }
+//    init() {
+//        self.items = getMockOneWeek4hIntervalData()
+//    }
+
+    
     
     func getServerTime() async throws -> Int {
         guard let url = URL(string: "https://data.binance.com/api/v3/time") else {
@@ -57,38 +67,22 @@ class NetworkManager: ObservableObject {
         }
     }
     
-    func getMockOneWeek4hIntervalData() -> [CandleStickDisplayData] {
+    func getMockOneWeek4hIntervalData() -> [CandleStick] {
         do {
-            guard let json = candleStickData.data(using: .utf8) else { return [] }
-            let decodedData = try JSONDecoder().decode([Candlestick].self, from: json)
-            let chartData: [CandleStickDisplayData] = decodedData.compactMap { data -> CandleStickDisplayData? in
-                guard let openTime = data.kLineOpenTime,
-                      let closeTime = data.kLineCloseTime,
-                      let openPrice = data.openPrice,
-                      let closePrice = data.closePrice,
-                      let highPrice = data.highPrice,
-                      let lowPrice = data.lowPrice,
-                      let volume = data.volume else {
-                    return nil
-                }
-                
-                let kLineOpenTime = Date(timeIntervalSince1970: TimeInterval(openTime/1000))
-                let klineCloseTIme = Date(timeIntervalSince1970: TimeInterval(closeTime/1000))
-                return CandleStickDisplayData(kLineOpenTime: kLineOpenTime,
-                                              kLineCloseTime: klineCloseTIme,
-                                              openPrice: openPrice,
-                                              highPrice: highPrice,
-                                              lowPrice: lowPrice,
-                                              closePrice: closePrice,
-                                              volume: volume)
-            }
+            guard let json = oneDayIntervalData.data(using: .utf8) else { return [] }
+            let decodedData = try JSONDecoder().decode([CoinData].self, from: json)
+            let chartData: [CandleStick] = decodedData.compactMap(\.candleStick)
             print(chartData)
-
+            
             return chartData
         } catch {
             print(error.localizedDescription)
-
+            
         }
         return []
+    }
+    
+    func addMockData() {
+        self.items = getMockOneWeek4hIntervalData()
     }
 }
