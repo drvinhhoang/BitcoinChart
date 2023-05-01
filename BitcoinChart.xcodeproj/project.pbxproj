@@ -75,12 +75,12 @@
 		5AC5A55429FE4D1B00765C35 /* BitcoinChart */ = {
 			isa = PBXGroup;
 			children = (
+				5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */,
+				5AC5A55729FE4D1B00765C35 /* ContentView.swift */,
 				5A664B8529FED983005239B6 /* Views */,
 				5AC5A56C29FE506200765C35 /* Managers */,
 				5AC5A56929FE4F8100765C35 /* Helpers */,
 				5AC5A56629FE4F0F00765C35 /* Models */,
-				5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */,
-				5AC5A55729FE4D1B00765C35 /* ContentView.swift */,
 				5AC5A56329FE4E8B00765C35 /* MockData.swift */,
 				5AC5A55929FE4D1D00765C35 /* Assets.xcassets */,
 				5AC5A55B29FE4D1D00765C35 /* Preview Content */,

@@ -19,8 +19,12 @@ extension Collection {
 extension Decimal {
     var asDouble: Double { Double(truncating: self as NSNumber) }
     
-    var doubleValue:Double {
-        return NSDecimalNumber(decimal:self).doubleValue
+    var floatValue: Float {
+        return NSDecimalNumber(decimal:self).floatValue
+    }
+    
+    var intValue: Int {
+        return NSDecimalNumber(decimal:self).intValue
     }
 }
 
