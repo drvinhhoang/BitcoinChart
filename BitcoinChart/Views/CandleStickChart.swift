@@ -13,12 +13,12 @@ struct CandleStickChart: View {
     var currentPrices: [CandleStick]
     var candleWidth: Int
     
-    var upperBound: Decimal {
+    var upperBound: Double {
         let val = getUpperBound(currentPrices)
         return val + (val / 50)
     }
     
-    var lowerBound: Decimal {
+    var lowerBound: Double {
         let val = getLowerBound(currentPrices)
         return val - (val / 50)
     }
@@ -54,10 +54,10 @@ struct CandleStickChart: View {
 
 struct CandleStickMark: ChartContent {
     let timestamp: PlottableValue<Date>
-    let open: PlottableValue<Decimal>
-    let high: PlottableValue<Decimal>
-    let low: PlottableValue<Decimal>
-    let close: PlottableValue<Decimal>
+    let open: PlottableValue<Double>
+    let high: PlottableValue<Double>
+    let low: PlottableValue<Double>
+    let close: PlottableValue<Double>
     let width: Int
     
     var body: some ChartContent {

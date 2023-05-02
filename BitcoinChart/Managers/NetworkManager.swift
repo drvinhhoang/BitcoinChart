@@ -15,7 +15,15 @@ enum NetworkError: Error {
 
 class NetworkManager: ObservableObject {
     
-    @Published var items: [CandleStick] = []
+    @Published var items: [CandleStick] = [] {
+        didSet {
+//            calculatePriceChangePercent()
+        }
+    }
+    
+    func calculatePriceChangePercent(openPrice: Decimal) {
+        
+    }
     @Published var currentPrice: String = ""
     let timer = Timer
         .publish(every: 2, on: .main, in: .common)

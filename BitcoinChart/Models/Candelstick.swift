@@ -62,37 +62,37 @@ extension CoinData {
         return self[safelyIndex: 0]?.integerValue
     }
     
-    var open: Decimal? {
+    var open: Double? {
         if let str = self[safelyIndex: 1]?.stringValue {
-            return Decimal(string: str)
+            return Double(str)
         }
         return nil
     }
     
-    var high: Decimal? {
+    var high: Double? {
         if let str = self[safelyIndex: 2]?.stringValue {
-            return Decimal(string: str)
+            return Double(str)
         }
         return nil
     }
     
-    var low: Decimal? {
+    var low: Double? {
         if let str = self[safelyIndex: 3]?.stringValue {
-            return Decimal(string: str)
+            return Double(str)
         }
         return nil
     }
     
-    var close: Decimal? {
+    var close: Double? {
         if let str = self[safelyIndex: 4]?.stringValue {
-            return Decimal(string: str)
+            return Double(str)
         }
         return nil
     }
     
-    var closeTime: Decimal? {
+    var closeTime: Double? {
         if let intVal = self[safelyIndex: 6]?.integerValue {
-            return Decimal(intVal)
+            return Double(intVal)
         }
         return nil
     }
@@ -112,10 +112,10 @@ extension CoinData {
 struct CandleStick: Identifiable {
     let id = UUID()
     let timestamp: Date
-    let open: Decimal
-    let close: Decimal
-    let high: Decimal
-    let low: Decimal
+    let open: Double
+    let close: Double
+    let high: Double
+    let low: Double
 }
 
 extension CandleStick {
@@ -127,15 +127,15 @@ extension CandleStick {
         "Price movement: \(isClosingHigher ? "up" : "down")"
     }
     
-    var accessibilityDescription: String {
-        return "Open: \(self.open.currency), Close: \(self.close.currency), High: \(self.high.currency), Low: \(self.low.currency)"
-    }
+//    var accessibilityDescription: String {
+//        return "Open: \(self.open.currency), Close: \(self.close.currency), High: \(self.high.currency), Low: \(self.low.currency)"
+//    }
 }
 
-func getLowerBound(_ arr: [CandleStick]) -> Decimal {
+func getLowerBound(_ arr: [CandleStick]) -> Double {
     return arr.min(by: { $0.low < $1.low })?.low ?? 0
 }
 
-func getUpperBound(_ arr: [CandleStick]) -> Decimal {
+func getUpperBound(_ arr: [CandleStick]) -> Double {
     return arr.max(by: { $0.low < $1.low })?.high ?? 0
 }
