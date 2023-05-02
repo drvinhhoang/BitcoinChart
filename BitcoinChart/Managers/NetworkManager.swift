@@ -13,16 +13,28 @@ enum NetworkError: Error {
     case invalidData
 }
 
+struct ChartData {
+    let items: [CandleStick]
+    let bounds: ClosedRange<Double>
+    var lastOpenPrice: Double? {
+        items.last?.open
+    }
+}
+
 class NetworkManager: ObservableObject {
-    
-    @Published var items: [CandleStick] = [] {
+
+    @Published var chartData: ChartData? = nil {
         didSet {
-//            calculatePriceChangePercent()
+            self.change = calculatePriceChangePercent(openPrice: chartData?.lastOpenPrice)
+            
         }
     }
     
-    func calculatePriceChangePercent(openPrice: Decimal) {
-        
+    func calculatePriceChangePercent(openPrice: Double?) -> String? {
+        guard let openPrice else { return nil}
+        let changePercent = ((Double(currentPrice) ?? 0) - openPrice) / openPrice
+        let percent = changePercent * 100
+        return String(format: "%.3f %%", percent)
     }
     @Published var currentPrice: String = ""
     let timer = Timer
@@ -31,11 +43,14 @@ class NetworkManager: ObservableObject {
     
     var cancellables = Set<AnyCancellable>()
     
-    @Published var change: Double = 0
+    @Published var change: String? = nil
+    
+    var task: Task<(), Error>?
     
     @Published var selectedRange = IntervalRange.oneDay {
         didSet {
-            Task {
+            task?.cancel()
+            task = Task {
                 try await callApiCoinData(interval: selectedRange)
             }
         }
@@ -70,6 +85,9 @@ class NetworkManager: ObservableObject {
     }
     
     func callApiCoinData(interval: IntervalRange = .oneDay) async throws {
+        defer {
+            print(Task.isCancelled)
+        }
         let time = try await getTimerServer()
         guard let time = time else {
             return
@@ -79,14 +97,22 @@ class NetworkManager: ObservableObject {
 
         do {
             let decodedData = try JSONDecoder().decode([CoinData].self, from: data)
-            let chartData: [CandleStick] = decodedData.compactMap(\.candleStick)
+            let candleSticks: [CandleStick] = decodedData.compactMap(\.candleStick)
+            let chartRange = getChartRange(candleSticks)
+            let chartData = ChartData(items: candleSticks, bounds: chartRange)
             await MainActor.run {
-                self.items = chartData
+                self.chartData = chartData
             }
         } catch {
             print(error.localizedDescription)
         }
 
+    }
+    
+    func getChartRange(_ arr: [CandleStick]) -> ClosedRange<Double> {
+        let max = arr.max(by: { $0.high < $1.high })?.high ?? 0
+        let low = arr.min(by: { $0.low < $1.low })?.low ?? 0
+        return low...max
     }
     
     init() {
@@ -132,9 +158,9 @@ class NetworkManager: ObservableObject {
         return []
     }
     
-    func addMockData() {
-        self.items = getMockOneWeek4hIntervalData()
-    }
+//    func addMockData() {
+//        self.items = getMockOneWeek4hIntervalData()
+//    }
     
     func getCurrentPrice() {
         let url = URL(string: "https://data.binance.com/api/v3/avgPrice?symbol=BTCUSDT")!
@@ -148,7 +174,7 @@ class NetworkManager: ObservableObject {
                 }
             }, receiveValue: { res in
                 DispatchQueue.main.async {
-                    print(res.price, "vinh")
+                   // print(res.price, "vinh")
                     self.currentPrice = res.price
                 }
             })

@@ -122,20 +122,4 @@ extension CandleStick {
     var isClosingHigher: Bool {
         self.open < self.close
     }
-    
-    var accessibilityTrendSummary: String {
-        "Price movement: \(isClosingHigher ? "up" : "down")"
-    }
-    
-//    var accessibilityDescription: String {
-//        return "Open: \(self.open.currency), Close: \(self.close.currency), High: \(self.high.currency), Low: \(self.low.currency)"
-//    }
-}
-
-func getLowerBound(_ arr: [CandleStick]) -> Double {
-    return arr.min(by: { $0.low < $1.low })?.low ?? 0
-}
-
-func getUpperBound(_ arr: [CandleStick]) -> Double {
-    return arr.max(by: { $0.low < $1.low })?.high ?? 0
 }

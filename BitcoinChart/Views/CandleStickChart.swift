@@ -11,21 +11,14 @@ import Charts
 struct CandleStickChart: View {
 
     var currentPrices: [CandleStick]
-    var candleWidth: Int
+    var candleWidth: Double
     
-    var upperBound: Double {
-        let val = getUpperBound(currentPrices)
-        return val + (val / 50)
-    }
+    var bound: ClosedRange<Double>
     
-    var lowerBound: Double {
-        let val = getLowerBound(currentPrices)
-        return val - (val / 50)
-    }
-
-    init(prices: [CandleStick], candleWidth: Int) {
+    init(prices: [CandleStick], candleWidth: Double, bound: ClosedRange<Double>) {
         self.currentPrices = prices
         self.candleWidth = candleWidth
+        self.bound = bound
     }
 
     var body: some View {
@@ -46,8 +39,8 @@ struct CandleStickChart: View {
             
             .foregroundStyle(price.open < price.close ? .green : .red)
         }
-        .chartYScale(domain: ClosedRange(uncheckedBounds: (lower: lowerBound, upper: upperBound)))
-        .chartYAxis { AxisMarks(preset: .inset, values: .stride(by: 1000, roundUpperBound: true)) }
+        .chartYAxis { AxisMarks(preset: .automatic, values: .stride(by: 1000)) }
+        .chartYScale(domain: bound)
         .padding(.horizontal)
     }
 }
@@ -58,7 +51,7 @@ struct CandleStickMark: ChartContent {
     let high: PlottableValue<Double>
     let low: PlottableValue<Double>
     let close: PlottableValue<Double>
-    let width: Int
+    let width: Double
     
     var body: some ChartContent {
         Plot {
@@ -67,7 +60,7 @@ struct CandleStickMark: ChartContent {
                 x: timestamp,
                 yStart: open,
                 yEnd: close,
-                width: MarkDimension(integerLiteral: width)
+                width: MarkDimension(floatLiteral: width)
             )
             BarMark(
                 x: timestamp,
@@ -82,8 +75,8 @@ struct CandleStickMark: ChartContent {
 
 // MARK: - Preview
 
-struct CandleStickChart_Previews: PreviewProvider {
-    static var previews: some View {
-        CandleStickChart(prices: [], candleWidth: 10)
-    }
-}
+//struct CandleStickChart_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CandleStickChart(prices: [], candleWidth: 10)
+//    }
+//}

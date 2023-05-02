@@ -10,27 +10,32 @@ import Charts
 
 struct ContentView: View {
     @StateObject var networkManager = NetworkManager()
-//    @StateObject var ws = WebSocket()
+    //    @StateObject var ws = WebSocket()
     var body: some View {
-        VStack {
+        GeometryReader { proxy in
+            
             VStack {
-                HStack {
-                    Text("BTC/USDT")
-                        .fontWeight(.bold)
-                        .font(.headline)
+                VStack {
+                    HStack {
+                        Text("BTC/USDT")
+                            .fontWeight(.bold)
+                            .font(.headline)
+                    }
+                    HStack {
+                        currentPrice
+                        Spacer()
+                        statisticView
+                            .frame(maxWidth: 200)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: 300)
+                    .padding(.horizontal)
                 }
-                HStack {
-                    currentPrice
-                    Spacer()
-                    statisticView
-                        .frame(maxWidth: 200)
+                ChooseIntervalView(selectedRange: $networkManager.selectedRange)
+                ScrollView(.horizontal) {
+                    CandleStickChart(prices: networkManager.chartData?.items ?? [], candleWidth: networkManager.selectedRange.candleWidth, bound: networkManager.chartData?.bounds ?? 0...10000)
+                        .frame(width:  proxy.size.width, height: proxy.size.height * 0.4)
                 }
-                .frame(maxWidth: .infinity, maxHeight: 300)
-                .padding(.horizontal)
             }
-            ChooseIntervalView(selectedRange: $networkManager.selectedRange)
-            CandleStickChart(prices: networkManager.items, candleWidth: networkManager.selectedRange.candleWidth)
-                .frame(height: 400)
         }
         .onAppear {
             Task {
@@ -46,7 +51,7 @@ struct ContentView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.green)
-            Text("\(networkManager.change)")
+            Text(networkManager.change ?? "")
                 .foregroundColor(.red)
         }
     }
@@ -75,7 +80,6 @@ struct ContentView: View {
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(.black)
-
         }
     }
 }

@@ -22,38 +22,43 @@ public enum IntervalRange: String, CaseIterable, Identifiable {
     public var candleCount: Int {
         switch self {
         case .oneMins:
-            return 7 * 24 * 60
+            return 1 * (60)
         case .fiveMins:
-            return 7 * 24 * 60/5
+            return 1 * 6 * (60/5)
         case .fifteenMins:
-            return 7 * (60/15) * 24
+            return 12 * (60/15)
         case .oneHour:
-            return 7 * 24
+            return 2 * 24
         case .fourHour:
             return 7 * (24/4)
         case .oneDay:
-            return 7 * 2
+            return 7 * 4
         }
     }
     
     var chartWidth: CGFloat {
-        CGFloat(candleCount * candleWidth * 2)
+        
+        if self == .oneDay {
+            return .infinity
+        } else {
+            return CGFloat(Double(candleCount) * candleWidth * 1.2)
+        }
     }
     
-    var candleWidth: Int {
+    var candleWidth: Double {
         switch self {
         case .oneMins:
-            return 1
-        case .fiveMins:
-            return 1
-        case .fifteenMins:
-            return 2
-        case .oneHour:
             return 4
+        case .fiveMins:
+            return 4
+        case .fifteenMins:
+            return 4
+        case .oneHour:
+            return 6
         case .fourHour:
             return 8
         case .oneDay:
-            return 16
+            return 10
         }
     }
 
