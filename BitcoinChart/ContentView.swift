@@ -47,24 +47,26 @@ struct ContentView: View {
     
     private var currentPrice: some View {
         HStack {
-            Text(networkManager.currentPrice)
-                .font(.title)
+            Text(Double(networkManager.currentPrice)?.asNumberWith2Decimals() ?? "")
+                .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(.green)
-            Text(networkManager.change ?? "")
-                .foregroundColor(.red)
+            Text(networkManager.change.asPercentString())
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundColor(networkManager.change.asNumberString() >= "0" ? .green : .red)
         }
     }
     
     private var statisticView: some View {
         HStack {
             VStack(spacing: 12) {
-                priceView(title: "24h High", value: networkManager.statistic24h?.high)
-                priceView(title: "24h Vol(BTC)", value: networkManager.statistic24h?.baseVolume)
+                priceView(title: "24h High", value: networkManager.statistic24h?.formattedHigh)
+                priceView(title: "24h Low", value: networkManager.statistic24h?.formattedLow)
             }
             VStack(spacing: 12) {
-                priceView(title: "24h Low", value: networkManager.statistic24h?.low)
-                priceView(title: "24h Vol(BTC)", value: networkManager.statistic24h?.quoteVolume)
+                priceView(title: "24h Vol(BTC)", value: networkManager.statistic24h?.formattedBaseVolume)
+                priceView(title: "24h Vol(BTC)", value: networkManager.statistic24h?.formattedQuoteVolume)
             }
         }
     }

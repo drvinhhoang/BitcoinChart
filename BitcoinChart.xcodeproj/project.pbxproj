@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A3DD0B42A00A2EF00EDAE15 /* ServerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */; };
+		5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B52A00E40A00EDAE15 /* Double.swift */; };
 		5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */; };
 		5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55729FE4D1B00765C35 /* ContentView.swift */; };
 		5AC5A55A29FE4D1D00765C35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5A55929FE4D1D00765C35 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTime.swift; sourceTree = "<group>"; };
+		5A3DD0B52A00E40A00EDAE15 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		5AC5A55229FE4D1B00765C35 /* BitcoinChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitcoinChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinChartApp.swift; sourceTree = "<group>"; };
 		5AC5A55729FE4D1B00765C35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				5AC5A56A29FE4F8D00765C35 /* Extensions.swift */,
 				5AD2BB6129FF441100CBC4A2 /* Constants.swift */,
 				5AD2BB6629FF6CB100CBC4A2 /* IntervalRange.swift */,
+				5A3DD0B52A00E40A00EDAE15 /* Double.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */,
 				5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */,
 				5AC5A56829FE4F3A00765C35 /* Candelstick.swift in Sources */,
+				5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */,
 				5AD2BB6229FF441100CBC4A2 /* Constants.swift in Sources */,
 				5AC5A57229FE51AC00765C35 /* NetworkManager.swift in Sources */,
 				5A3DD0B42A00A2EF00EDAE15 /* ServerTime.swift in Sources */,

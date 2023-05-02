@@ -25,16 +25,16 @@ class NetworkManager: ObservableObject {
 
     @Published var chartData: ChartData? = nil {
         didSet {
-            self.change = calculatePriceChangePercent(openPrice: chartData?.lastOpenPrice)
+            self.change = calculatePriceChangePercent(openPrice: chartData?.lastOpenPrice) ?? 0.00
             
         }
     }
     
-    func calculatePriceChangePercent(openPrice: Double?) -> String? {
+    func calculatePriceChangePercent(openPrice: Double?) -> Double? {
         guard let openPrice else { return nil}
         let changePercent = ((Double(currentPrice) ?? 0) - openPrice) / openPrice
         let percent = changePercent * 100
-        return String(format: "%.3f %%", percent)
+        return percent
     }
     @Published var currentPrice: String = ""
     let timer = Timer
@@ -43,7 +43,7 @@ class NetworkManager: ObservableObject {
     
     var cancellables = Set<AnyCancellable>()
     
-    @Published var change: String? = nil
+    @Published var change: Double = 0.00
     
     var task: Task<(), Error>?
     

@@ -21,4 +21,20 @@ struct Statistic24h: Codable {
         case baseVolume = "v"
         case quoteVolume =  "q"
     }
+    
+    var formattedHigh: String {
+        Double(high ?? "0")?.asNumberWith2Decimals() ?? ""
+    }
+    
+    var formattedLow: String {
+        Double(low ?? "")?.asNumberWith2Decimals() ?? ""
+    }
+    
+    var formattedBaseVolume: String {
+        Double(baseVolume ?? "")?.asNumberWith2Decimals() ?? ""
+    }
+    
+    var formattedQuoteVolume: String {
+        Double(quoteVolume ?? "")?.formattedWithAbbreviations() ?? ""
+    }
 }
