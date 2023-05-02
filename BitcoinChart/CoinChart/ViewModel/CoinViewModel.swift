@@ -5,14 +5,6 @@
 //  Created by VinhHoang on 02/05/2023.
 //
 
-struct ChartData {
-    let items: [CandleStick]
-    let bounds: ClosedRange<Double>
-    var lastOpenPrice: Double? {
-        items.last?.open
-    }
-}
-
 import Foundation
 import Combine
 
@@ -23,23 +15,19 @@ protocol CoinFetcher {
 }
 
 final class CoinViewModel: ObservableObject {
-    
-    @Published var statistic24h: Statistic24h? = nil
-    private var webSocketTask: URLSessionWebSocketTask!
     private var webSocketTasks24h: URLSessionWebSocketTask!
-
     private var task: Task<(), Error>?
-    let timer = Timer
+    private let timer = Timer
         .publish(every: 2, on: .main, in: .common)
         .autoconnect()
-    var cancellables = Set<AnyCancellable>()
-    @Published var priceChangePercent: Double = 0.00
-
+    private var cancellables = Set<AnyCancellable>()
+    private let coinFetcher: CoinFetcher
     
-    @Published var chartData: ChartData? = nil
-    @Published var currentPrice: String = ""
-  
-    @Published var selectedRange = IntervalRange.fourHour {
+    @Published @MainActor var priceChangePercent: Double = 0.00
+    @Published @MainActor var chartData: ChartData? = nil
+    @Published @MainActor var currentPrice: String = ""
+    @Published @MainActor var statistic24h: Statistic24h? = nil
+    @Published @MainActor var selectedRange = IntervalRange.fourHour {
         didSet {
             task?.cancel()
             task = Task {
@@ -47,31 +35,33 @@ final class CoinViewModel: ObservableObject {
             }
         }
     }
-    let coinFetcher: CoinFetcher
     
     init(coinFetcher: CoinFetcher) {
         self.coinFetcher = coinFetcher
         getStatistic24h()
         Task {
-           let currentPrice = await coinFetcher.getCurrentPrice()
-           await MainActor.run {
+            let currentPrice = await coinFetcher.getCurrentPrice()
+            await MainActor.run {
                 guard let currentPrice else { return }
                 self.currentPrice = currentPrice
             }
-
         }
         subscribeTimer()
     }
     
+    deinit {
+        closeScocket()
+    }
+    
     func subscribeTimer() {
-          timer
-              .sink { time in
-                  Task {
-                      await self.coinFetcher.getCurrentPrice()
-                  }
-              }
-              .store(in: &cancellables)
-      }
+        timer
+            .sink { time in
+                Task {
+                    await self.coinFetcher.getCurrentPrice()
+                }
+            }
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: - FETCH DATA
@@ -97,6 +87,7 @@ extension CoinViewModel {
         return low...max
     }
     
+    @MainActor
     private func calculatePriceChangePercent(openPrice: Double?) -> Double {
         guard let openPrice else { return 0 }
         let changePercent = ((Double(currentPrice) ?? 0) - openPrice) / openPrice
@@ -108,49 +99,44 @@ extension CoinViewModel {
 // MARK: - SOCKET
 
 extension CoinViewModel {
-       
-       func getStatistic24h() {
-           let webSocketURL = URL(string:"wss://stream.binance.com:9443/ws/btcusdt@ticker")!
-           webSocketTasks24h = setupSocket(url: webSocketURL)
-           listenForStatistic24h()
-       }
-       
-       func setupSocket(url: URL) -> URLSessionWebSocketTask {
-           let ws = URLSession.shared.webSocketTask(with: url)
-           ws.resume()
-           return ws
-       }
-       
-       
-       func listenForStatistic24h() {
-           webSocketTasks24h.receive { [weak self] result in
-               guard let self else { return }
-               switch result {
-               case .failure(let error):
-                   print("Failed to receive message: \(error)")
-               case .success(let message):
-                   switch message {
-                   case .string(let text):
-                       let data = text.data(using: .utf8)
-                       let object = try? JSONDecoder().decode(Statistic24h.self, from: data!)
-                       DispatchQueue.main.async {
-                           self.statistic24h = object
-                       }
-                   case .data(let data):
-                       print("Received binary message: \(data)")
-                   @unknown default:
-                       fatalError()
-                   }
-               }
-               self.listenForStatistic24h()
-           }
-       }
-       
-       func closeScocket() {
-           webSocketTask.cancel(with: .goingAway, reason: nil)
-           DispatchQueue.main.async {
-               self.currentPrice = ""
-           }
-       }
-
+    
+    func getStatistic24h() {
+        let webSocketURL = URL(string:"wss://stream.binance.com:9443/ws/btcusdt@ticker")!
+        webSocketTasks24h = setupSocket(url: webSocketURL)
+        listenForStatistic24h()
+    }
+    
+    func setupSocket(url: URL) -> URLSessionWebSocketTask {
+        let ws = URLSession.shared.webSocketTask(with: url)
+        ws.resume()
+        return ws
+    }
+    
+    func listenForStatistic24h() {
+        webSocketTasks24h.receive { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .failure(let error):
+                print("Failed to receive message: \(error)")
+            case .success(let message):
+                switch message {
+                case .string(let text):
+                    let data = text.data(using: .utf8)
+                    let object = try? JSONDecoder().decode(Statistic24h.self, from: data!)
+                    DispatchQueue.main.async {
+                        self.statistic24h = object
+                    }
+                case .data(let data):
+                    print("Received binary message: \(data)")
+                @unknown default:
+                    fatalError()
+                }
+            }
+            self.listenForStatistic24h()
+        }
+    }
+    
+    func closeScocket() {
+        webSocketTasks24h.cancel(with: .goingAway, reason: nil)
+    }
 }

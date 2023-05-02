@@ -8,8 +8,7 @@
 import SwiftUI
 import Charts
 
-struct ContentView: View {
-//    @StateObject var networkManager = NetworkManager()
+struct CoinView: View {
     @StateObject var vm = CoinViewModel(coinFetcher: CoinService(requestManager: RequestManager()))
     var body: some View {
         GeometryReader { proxy in
@@ -87,6 +86,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CoinView()
     }
 }

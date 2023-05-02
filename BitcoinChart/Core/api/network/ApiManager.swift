@@ -11,7 +11,7 @@ protocol APIManagerProtocol {
     func initRequest(with data: RequestProtocol) async throws -> Data
 }
 
-class APIManager: APIManagerProtocol {
+final class APIManager: APIManagerProtocol {
     private let urlSession: URLSession
     
     init(urlSession: URLSession = URLSession.shared) {

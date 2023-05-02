@@ -12,7 +12,7 @@ protocol RequestManagerProtocol {
     func initRequest<T: Decodable>(with data: RequestProtocol) async throws -> T
 }
 
-class RequestManager: RequestManagerProtocol {
+final class RequestManager: RequestManagerProtocol {
     private var jsonDecoder: JSONDecoder = JSONDecoder()
     let apiManager: APIManagerProtocol
     
@@ -31,7 +31,7 @@ class RequestManager: RequestManagerProtocol {
     }
 }
 
-class ServerTimeRequest: RequestProtocol {
+final class ServerTimeRequest: RequestProtocol {
     var requestType: RequestType {
         .GET
     }
@@ -40,5 +40,3 @@ class ServerTimeRequest: RequestProtocol {
         "/api/v3/time"
     }
 }
-
-
