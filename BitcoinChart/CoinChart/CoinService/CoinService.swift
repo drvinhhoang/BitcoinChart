@@ -30,8 +30,8 @@ extension CoinService: CoinFetcher {
     func getServerTime() async -> String? {
         let request = ServerTimeRequest()
         do {
-            let serverTime: Int = try await requestManager.initRequest(with: request)
-            return String(serverTime)
+            let data: ServerTime = try await requestManager.initRequest(with: request)
+            return String(data.serverTime)
         } catch {
             BCLogger.log(error.localizedDescription)
             return nil

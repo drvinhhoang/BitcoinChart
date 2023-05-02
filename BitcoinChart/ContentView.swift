@@ -9,8 +9,8 @@ import SwiftUI
 import Charts
 
 struct ContentView: View {
-    @StateObject var networkManager = NetworkManager()
-    //    @StateObject var ws = WebSocket()
+//    @StateObject var networkManager = NetworkManager()
+    @StateObject var vm = CoinViewModel(coinFetcher: CoinService(requestManager: RequestManager()))
     var body: some View {
         GeometryReader { proxy in
             
@@ -30,43 +30,42 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, maxHeight: 300)
                     .padding(.horizontal)
                 }
-                ChooseIntervalView(selectedRange: $networkManager.selectedRange)
+                ChooseIntervalView(selectedRange: $vm.selectedRange)
                 ScrollView(.horizontal) {
-                    CandleStickChart(prices: networkManager.chartData?.items ?? [], candleWidth: networkManager.selectedRange.candleWidth, bound: networkManager.chartData?.bounds ?? 0...10000)
+                    CandleStickChart(prices: vm.chartData?.items ?? [], candleWidth: vm.selectedRange.candleWidth, bound: vm.chartData?.bounds ?? 0...10000)
                         .frame(width:  proxy.size.width, height: proxy.size.height * 0.4)
                 }
             }
         }
         .onAppear {
             Task {
-                try await networkManager.callApiCoinData()
-                
+                 await vm.fetchCoinKlineData()
             }
         }
     }
     
     private var currentPrice: some View {
         HStack {
-            Text(Double(networkManager.currentPrice)?.asNumberWith2Decimals() ?? "")
+            Text(Double(vm.currentPrice)?.asNumberWith2Decimals() ?? "")
                 .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(.green)
-            Text(networkManager.change.asPercentString())
+            Text(vm.priceChangePercent.asPercentString())
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundColor(networkManager.change.asNumberString() >= "0" ? .green : .red)
+                .foregroundColor(vm.priceChangePercent.asNumberString() >= "0" ? .green : .red)
         }
     }
     
     private var statisticView: some View {
         HStack {
             VStack(spacing: 12) {
-                priceView(title: "24h High", value: networkManager.statistic24h?.formattedHigh)
-                priceView(title: "24h Low", value: networkManager.statistic24h?.formattedLow)
+                priceView(title: "24h High", value: vm.statistic24h?.formattedHigh)
+                priceView(title: "24h Low", value: vm.statistic24h?.formattedLow)
             }
             VStack(spacing: 12) {
-                priceView(title: "24h Vol(BTC)", value: networkManager.statistic24h?.formattedBaseVolume)
-                priceView(title: "24h Vol(BTC)", value: networkManager.statistic24h?.formattedQuoteVolume)
+                priceView(title: "24h Vol(BTC)", value: vm.statistic24h?.formattedBaseVolume)
+                priceView(title: "24h Vol(BTC)", value: vm.statistic24h?.formattedQuoteVolume)
             }
         }
     }
