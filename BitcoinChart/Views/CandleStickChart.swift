@@ -11,6 +11,7 @@ import Charts
 struct CandleStickChart: View {
 
     var currentPrices: [CandleStick]
+    var candleWidth: Int
     
     var upperBound: Decimal {
         let val = getUpperBound(currentPrices)
@@ -22,8 +23,9 @@ struct CandleStickChart: View {
         return val - (val / 50)
     }
 
-    init(prices: [CandleStick]) {
+    init(prices: [CandleStick], candleWidth: Int) {
         self.currentPrices = prices
+        self.candleWidth = candleWidth
     }
 
     var body: some View {
@@ -39,13 +41,13 @@ struct CandleStickChart: View {
                 open: .value("Open", price.open),
                 high: .value("High", price.high),
                 low: .value("Low", price.low),
-                close: .value("Close", price.close)
-            )
+                close: .value("Close", price.close),
+                width: candleWidth)
+            
             .foregroundStyle(price.open < price.close ? .green : .red)
         }
-        .frame(maxWidth: .infinity, maxHeight: 400)
         .chartYScale(domain: ClosedRange(uncheckedBounds: (lower: lowerBound, upper: upperBound)))
-        .chartYAxis { AxisMarks(preset: .inset, values: .stride(by: 1000)) }
+        .chartYAxis { AxisMarks(preset: .inset, values: .stride(by: 1000, roundUpperBound: true)) }
         .padding(.horizontal)
     }
 }
@@ -56,6 +58,7 @@ struct CandleStickMark: ChartContent {
     let high: PlottableValue<Decimal>
     let low: PlottableValue<Decimal>
     let close: PlottableValue<Decimal>
+    let width: Int
     
     var body: some ChartContent {
         Plot {
@@ -64,7 +67,7 @@ struct CandleStickMark: ChartContent {
                 x: timestamp,
                 yStart: open,
                 yEnd: close,
-                width: 10
+                width: MarkDimension(integerLiteral: width)
             )
             BarMark(
                 x: timestamp,
@@ -81,6 +84,6 @@ struct CandleStickMark: ChartContent {
 
 struct CandleStickChart_Previews: PreviewProvider {
     static var previews: some View {
-        CandleStickChart(prices: [])
+        CandleStickChart(prices: [], candleWidth: 10)
     }
 }
