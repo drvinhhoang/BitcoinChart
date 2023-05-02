@@ -21,6 +21,7 @@
 		5A3DD0D82A00FEF900EDAE15 /* CoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0D72A00FEF900EDAE15 /* CoinViewModel.swift */; };
 		5A3DD0DA2A01026000EDAE15 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0D92A01026000EDAE15 /* Logger.swift */; };
 		5A3DD0DD2A0108F000EDAE15 /* ServerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0DC2A0108F000EDAE15 /* ServerTime.swift */; };
+		5A3DD0DF2A01122A00EDAE15 /* CurrentPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0DE2A01122A00EDAE15 /* CurrentPrice.swift */; };
 		5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */; };
 		5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55729FE4D1B00765C35 /* ContentView.swift */; };
 		5AC5A55A29FE4D1D00765C35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5A55929FE4D1D00765C35 /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		5A3DD0D72A00FEF900EDAE15 /* CoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinViewModel.swift; sourceTree = "<group>"; };
 		5A3DD0D92A01026000EDAE15 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		5A3DD0DC2A0108F000EDAE15 /* ServerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTime.swift; sourceTree = "<group>"; };
+		5A3DD0DE2A01122A00EDAE15 /* CurrentPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPrice.swift; sourceTree = "<group>"; };
 		5AC5A55229FE4D1B00765C35 /* BitcoinChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitcoinChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinChartApp.swift; sourceTree = "<group>"; };
 		5AC5A55729FE4D1B00765C35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				5AC5A56729FE4F3A00765C35 /* Candelstick.swift */,
 				5AC5A56F29FE50E600765C35 /* Coin.swift */,
 				5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */,
+				5A3DD0DE2A01122A00EDAE15 /* CurrentPrice.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				5A3DD0C52A00F33E00EDAE15 /* RequestType.swift in Sources */,
 				5A3DD0C72A00F3BD00EDAE15 /* RequestManager.swift in Sources */,
 				5A3DD0DA2A01026000EDAE15 /* Logger.swift in Sources */,
+				5A3DD0DF2A01122A00EDAE15 /* CurrentPrice.swift in Sources */,
 				5A3DD0DD2A0108F000EDAE15 /* ServerTime.swift in Sources */,
 				5A3DD0C32A00F28F00EDAE15 /* APIConstants.swift in Sources */,
 				5AD2BB6529FF6C7100CBC4A2 /* ChooseIntervalView.swift in Sources */,

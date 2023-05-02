@@ -181,10 +181,10 @@ class NetworkManager: ObservableObject {
     private var webSocketTask: URLSessionWebSocketTask!
     private var webSocketTasks24h: URLSessionWebSocketTask!
     
-    func updateCandlestick() {
-        let webSocketURL = URL(string: "wss://stream.binance.com:9443/ws/btcusdt@kline_\(selectedRange.rawValue)")!
-        webSocketTask = setupSocket(url: webSocketURL)
-    }
+//    func updateCandlestick() {
+//        let webSocketURL = URL(string: "wss://stream.binance.com:9443/ws/btcusdt@kline_\(selectedRange.rawValue)")!
+//        webSocketTask = setupSocket(url: webSocketURL)
+//    }
     
     func getStatistic24h() {
         let webSocketURL = URL(string:"wss://stream.binance.com:9443/ws/btcusdt@ticker")!
@@ -198,32 +198,9 @@ class NetworkManager: ObservableObject {
         return ws
     }
     
-
-//    func listenForCurrentPrice() {
-//        webSocketTask.receive { [weak self] result in
-//            guard let self else { return }
-//            switch result {
-//            case .failure(let error):
-//                print("Failed to receive message: \(error)")
-//            case .success(let message):
-//                switch message {
-//                case .string(let text):
-//                    let data = text.data(using: .utf8)
-//                    let object = try? JSONDecoder().decode(CurrentPrice.self, from: data!)
-//                    print("vinhht", object?.result?.price)
-//                    DispatchQueue.main.async {
-//                        self.currentPrice = object?.result?.price ?? ""
-//                    }
-//                case .data(let data):
-//                    print("Received binary message: \(data)")
-//                @unknown default:
-//                    fatalError()
-//                }
-//            }
-//           // self.listenForCurrentPrice()
-//
-//        }
-//    }
+    deinit {
+        closeScocket()
+    }
     
     func listenForStatistic24h() {
         webSocketTasks24h.receive { [weak self] result in
@@ -246,7 +223,6 @@ class NetworkManager: ObservableObject {
                 }
             }
             self.listenForStatistic24h()
-
         }
     }
     
@@ -258,7 +234,4 @@ class NetworkManager: ObservableObject {
     }
 }
 
-struct CurrentPrice: Codable {
-    let mins: Int
-    let price: String
-}
+
