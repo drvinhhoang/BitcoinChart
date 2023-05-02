@@ -10,7 +10,6 @@ import Charts
 
 struct ContentView: View {
     @StateObject var networkManager = NetworkManager()
-    //    @StateObject var ws = WebSocket()
     var body: some View {
         GeometryReader { proxy in
             

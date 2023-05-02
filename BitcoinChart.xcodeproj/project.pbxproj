@@ -9,6 +9,18 @@
 /* Begin PBXBuildFile section */
 		5A3DD0B42A00A2EF00EDAE15 /* ServerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */; };
 		5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B52A00E40A00EDAE15 /* Double.swift */; };
+		5A3DD0BA2A00F0C100EDAE15 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B92A00F0C100EDAE15 /* NetworkError.swift */; };
+		5A3DD0BC2A00F1A100EDAE15 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0BB2A00F1A100EDAE15 /* ApiManager.swift */; };
+		5A3DD0BE2A00F20E00EDAE15 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0BD2A00F20E00EDAE15 /* RequestProtocol.swift */; };
+		5A3DD0C32A00F28F00EDAE15 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0C22A00F28F00EDAE15 /* APIConstants.swift */; };
+		5A3DD0C52A00F33E00EDAE15 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0C42A00F33E00EDAE15 /* RequestType.swift */; };
+		5A3DD0C72A00F3BD00EDAE15 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0C62A00F3BD00EDAE15 /* RequestManager.swift */; };
+		5A3DD0CA2A00F3EC00EDAE15 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0C92A00F3EC00EDAE15 /* DataParser.swift */; };
+		5A3DD0CE2A00F46900EDAE15 /* CoinRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0CD2A00F46900EDAE15 /* CoinRequest.swift */; };
+		5A3DD0D52A00FE4300EDAE15 /* CoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0D42A00FE4300EDAE15 /* CoinService.swift */; };
+		5A3DD0D82A00FEF900EDAE15 /* CoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0D72A00FEF900EDAE15 /* CoinViewModel.swift */; };
+		5A3DD0DA2A01026000EDAE15 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0D92A01026000EDAE15 /* Logger.swift */; };
+		5A3DD0DD2A0108F000EDAE15 /* ServerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0DC2A0108F000EDAE15 /* ServerTime.swift */; };
 		5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */; };
 		5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55729FE4D1B00765C35 /* ContentView.swift */; };
 		5AC5A55A29FE4D1D00765C35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5A55929FE4D1D00765C35 /* Assets.xcassets */; };
@@ -28,6 +40,18 @@
 /* Begin PBXFileReference section */
 		5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTime.swift; sourceTree = "<group>"; };
 		5A3DD0B52A00E40A00EDAE15 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		5A3DD0B92A00F0C100EDAE15 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		5A3DD0BB2A00F1A100EDAE15 /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		5A3DD0BD2A00F20E00EDAE15 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
+		5A3DD0C22A00F28F00EDAE15 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		5A3DD0C42A00F33E00EDAE15 /* RequestType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
+		5A3DD0C62A00F3BD00EDAE15 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
+		5A3DD0C92A00F3EC00EDAE15 /* DataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
+		5A3DD0CD2A00F46900EDAE15 /* CoinRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinRequest.swift; sourceTree = "<group>"; };
+		5A3DD0D42A00FE4300EDAE15 /* CoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinService.swift; sourceTree = "<group>"; };
+		5A3DD0D72A00FEF900EDAE15 /* CoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinViewModel.swift; sourceTree = "<group>"; };
+		5A3DD0D92A01026000EDAE15 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		5A3DD0DC2A0108F000EDAE15 /* ServerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTime.swift; sourceTree = "<group>"; };
 		5AC5A55229FE4D1B00765C35 /* BitcoinChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitcoinChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinChartApp.swift; sourceTree = "<group>"; };
 		5AC5A55729FE4D1B00765C35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +80,99 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A3DD0B72A00F0B000EDAE15 /* api */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0C82A00F3E000EDAE15 /* parser */,
+				5A3DD0BF2A00F23300EDAE15 /* request */,
+				5A3DD0B82A00F0B500EDAE15 /* network */,
+				5A3DD0C22A00F28F00EDAE15 /* APIConstants.swift */,
+			);
+			path = api;
+			sourceTree = "<group>";
+		};
+		5A3DD0B82A00F0B500EDAE15 /* network */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0B92A00F0C100EDAE15 /* NetworkError.swift */,
+				5A3DD0BB2A00F1A100EDAE15 /* ApiManager.swift */,
+			);
+			path = network;
+			sourceTree = "<group>";
+		};
+		5A3DD0BF2A00F23300EDAE15 /* request */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0DB2A0108E300EDAE15 /* serverTime */,
+				5A3DD0CB2A00F44900EDAE15 /* Klines */,
+				5A3DD0BD2A00F20E00EDAE15 /* RequestProtocol.swift */,
+				5A3DD0C62A00F3BD00EDAE15 /* RequestManager.swift */,
+				5A3DD0C42A00F33E00EDAE15 /* RequestType.swift */,
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		5A3DD0C82A00F3E000EDAE15 /* parser */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0C92A00F3EC00EDAE15 /* DataParser.swift */,
+			);
+			path = parser;
+			sourceTree = "<group>";
+		};
+		5A3DD0CB2A00F44900EDAE15 /* Klines */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0CD2A00F46900EDAE15 /* CoinRequest.swift */,
+			);
+			path = Klines;
+			sourceTree = "<group>";
+		};
+		5A3DD0D02A00F9D400EDAE15 /* CoinMarketcap */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0D32A00FD5D00EDAE15 /* Viewmodel */,
+				5AC5A56C29FE506200765C35 /* CoinService */,
+				5A664B8529FED983005239B6 /* Views */,
+			);
+			path = CoinMarketcap;
+			sourceTree = "<group>";
+		};
+		5A3DD0D12A00FD0300EDAE15 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0D22A00FD4000EDAE15 /* model */,
+				5A3DD0B72A00F0B000EDAE15 /* api */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		5A3DD0D22A00FD4000EDAE15 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				5AC5A56729FE4F3A00765C35 /* Candelstick.swift */,
+				5AC5A56F29FE50E600765C35 /* Coin.swift */,
+				5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		5A3DD0D32A00FD5D00EDAE15 /* Viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0D72A00FEF900EDAE15 /* CoinViewModel.swift */,
+			);
+			path = Viewmodel;
+			sourceTree = "<group>";
+		};
+		5A3DD0DB2A0108E300EDAE15 /* serverTime */ = {
+			isa = PBXGroup;
+			children = (
+				5A3DD0DC2A0108F000EDAE15 /* ServerTime.swift */,
+			);
+			path = serverTime;
+			sourceTree = "<group>";
+		};
 		5A664B8529FED983005239B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -84,10 +201,10 @@
 		5AC5A55429FE4D1B00765C35 /* BitcoinChart */ = {
 			isa = PBXGroup;
 			children = (
+				5A3DD0D12A00FD0300EDAE15 /* Core */,
+				5A3DD0D02A00F9D400EDAE15 /* CoinMarketcap */,
 				5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */,
 				5AC5A55729FE4D1B00765C35 /* ContentView.swift */,
-				5A664B8529FED983005239B6 /* Views */,
-				5AC5A56C29FE506200765C35 /* Managers */,
 				5AC5A56929FE4F8100765C35 /* Helpers */,
 				5AC5A56629FE4F0F00765C35 /* Models */,
 				5AC5A56329FE4E8B00765C35 /* MockData.swift */,
@@ -108,9 +225,6 @@
 		5AC5A56629FE4F0F00765C35 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5AC5A56729FE4F3A00765C35 /* Candelstick.swift */,
-				5AC5A56F29FE50E600765C35 /* Coin.swift */,
-				5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -122,17 +236,19 @@
 				5AD2BB6129FF441100CBC4A2 /* Constants.swift */,
 				5AD2BB6629FF6CB100CBC4A2 /* IntervalRange.swift */,
 				5A3DD0B52A00E40A00EDAE15 /* Double.swift */,
+				5A3DD0D92A01026000EDAE15 /* Logger.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		5AC5A56C29FE506200765C35 /* Managers */ = {
+		5AC5A56C29FE506200765C35 /* CoinService */ = {
 			isa = PBXGroup;
 			children = (
 				5AC5A56D29FE506D00765C35 /* Websocket.swift */,
 				5AC5A57129FE51AC00765C35 /* NetworkManager.swift */,
+				5A3DD0D42A00FE4300EDAE15 /* CoinService.swift */,
 			);
-			path = Managers;
+			path = CoinService;
 			sourceTree = "<group>";
 		};
 		5AD2BB6329FF6C5D00CBC4A2 /* ChooseIntervalView */ = {
@@ -217,19 +333,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A3DD0BC2A00F1A100EDAE15 /* ApiManager.swift in Sources */,
 				5AD2BB6729FF6CB100CBC4A2 /* IntervalRange.swift in Sources */,
 				5AC5A56B29FE4F8D00765C35 /* Extensions.swift in Sources */,
+				5A3DD0D82A00FEF900EDAE15 /* CoinViewModel.swift in Sources */,
 				5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */,
 				5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */,
+				5A3DD0CA2A00F3EC00EDAE15 /* DataParser.swift in Sources */,
+				5A3DD0D52A00FE4300EDAE15 /* CoinService.swift in Sources */,
 				5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */,
 				5AC5A56829FE4F3A00765C35 /* Candelstick.swift in Sources */,
 				5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */,
 				5AD2BB6229FF441100CBC4A2 /* Constants.swift in Sources */,
 				5AC5A57229FE51AC00765C35 /* NetworkManager.swift in Sources */,
+				5A3DD0BA2A00F0C100EDAE15 /* NetworkError.swift in Sources */,
 				5A3DD0B42A00A2EF00EDAE15 /* ServerTime.swift in Sources */,
 				5AC5A56429FE4E8B00765C35 /* MockData.swift in Sources */,
 				5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */,
+				5A3DD0CE2A00F46900EDAE15 /* CoinRequest.swift in Sources */,
+				5A3DD0C52A00F33E00EDAE15 /* RequestType.swift in Sources */,
+				5A3DD0C72A00F3BD00EDAE15 /* RequestManager.swift in Sources */,
+				5A3DD0DA2A01026000EDAE15 /* Logger.swift in Sources */,
+				5A3DD0DD2A0108F000EDAE15 /* ServerTime.swift in Sources */,
+				5A3DD0C32A00F28F00EDAE15 /* APIConstants.swift in Sources */,
 				5AD2BB6529FF6C7100CBC4A2 /* ChooseIntervalView.swift in Sources */,
+				5A3DD0BE2A00F20E00EDAE15 /* RequestProtocol.swift in Sources */,
 				5AC5A57029FE50E600765C35 /* Coin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

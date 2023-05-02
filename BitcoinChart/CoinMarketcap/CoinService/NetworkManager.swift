@@ -8,11 +8,6 @@
 import SwiftUI
 import Combine
 
-enum NetworkError: Error {
-    case invalidURL
-    case invalidData
-}
-
 struct ChartData {
     let items: [CandleStick]
     let bounds: ClosedRange<Double>
@@ -30,7 +25,7 @@ class NetworkManager: ObservableObject {
         }
     }
     
-    func calculatePriceChangePercent(openPrice: Double?) -> Double? {
+    private func calculatePriceChangePercent(openPrice: Double?) -> Double? {
         guard let openPrice else { return nil}
         let changePercent = ((Double(currentPrice) ?? 0) - openPrice) / openPrice
         let percent = changePercent * 100
@@ -56,23 +51,22 @@ class NetworkManager: ObservableObject {
         }
     }
     
-    func request() throws -> URLRequest {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "data.binance.com"
-        components.path = "/api/v3/klines"
-        components.queryItems = [ "symbol": "BTCUSDT",
-                                  "interval": "1d"].map { URLQueryItem(name: $0, value: $1) }
-        guard let url = components.url else { throw NetworkError.invalidURL }
-        var urlRequest = URLRequest(url: url)
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        return urlRequest
-    }
+//    func request() throws -> URLRequest {
+//        var components = URLComponents()
+//        components.scheme = "https"
+//        components.host = "data.binance.com"
+//        components.path = "/api/v3/klines"
+//        components.queryItems = [ "symbol": "BTCUSDT",
+//                                  "interval": "1d"].map { URLQueryItem(name: $0, value: $1) }
+//        guard let url = components.url else { throw NetworkError.invalidURL }
+//        var urlRequest = URLRequest(url: url)
+//        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        return urlRequest
+//    }
     
     func getTimerServer() async throws -> Int? {
         let url = URL(string: "https://api.binance.com/api/v3/time")!
         let (data, res) = try await URLSession.shared.data(from: url)
-        
         
         do {
             let decodedData = try JSONDecoder().decode(ServerTime.self, from: data)
