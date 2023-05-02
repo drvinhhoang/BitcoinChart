@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A1E14E82A011A4A00237B9C /* CoinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E14E72A011A4900237B9C /* CoinService.swift */; };
+		5A1E14EB2A011A6F00237B9C /* CoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E14EA2A011A6F00237B9C /* CoinViewModel.swift */; };
 		5A3DD0B42A00A2EF00EDAE15 /* ServerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */; };
 		5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B52A00E40A00EDAE15 /* Double.swift */; };
+		5A3E5B162A011B4A00C18D30 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3E5B152A011B4A00C18D30 /* NetworkManager.swift */; };
 		5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */; };
 		5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55729FE4D1B00765C35 /* ContentView.swift */; };
 		5AC5A55A29FE4D1D00765C35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5A55929FE4D1D00765C35 /* Assets.xcassets */; };
@@ -18,7 +21,6 @@
 		5AC5A56B29FE4F8D00765C35 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56A29FE4F8D00765C35 /* Extensions.swift */; };
 		5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56D29FE506D00765C35 /* Websocket.swift */; };
 		5AC5A57029FE50E600765C35 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56F29FE50E600765C35 /* Coin.swift */; };
-		5AC5A57229FE51AC00765C35 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A57129FE51AC00765C35 /* NetworkManager.swift */; };
 		5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */; };
 		5AD2BB6229FF441100CBC4A2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB6129FF441100CBC4A2 /* Constants.swift */; };
 		5AD2BB6529FF6C7100CBC4A2 /* ChooseIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB6429FF6C7100CBC4A2 /* ChooseIntervalView.swift */; };
@@ -26,8 +28,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A1E14E72A011A4900237B9C /* CoinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinService.swift; sourceTree = "<group>"; };
+		5A1E14EA2A011A6F00237B9C /* CoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinViewModel.swift; sourceTree = "<group>"; };
 		5A3DD0B32A00A2EF00EDAE15 /* ServerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTime.swift; sourceTree = "<group>"; };
 		5A3DD0B52A00E40A00EDAE15 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		5A3E5B152A011B4A00C18D30 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5AC5A55229FE4D1B00765C35 /* BitcoinChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitcoinChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinChartApp.swift; sourceTree = "<group>"; };
 		5AC5A55729FE4D1B00765C35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -38,7 +43,6 @@
 		5AC5A56A29FE4F8D00765C35 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5AC5A56D29FE506D00765C35 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
 		5AC5A56F29FE50E600765C35 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
-		5AC5A57129FE51AC00765C35 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChart.swift; sourceTree = "<group>"; };
 		5AD2BB6129FF441100CBC4A2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5AD2BB6429FF6C7100CBC4A2 /* ChooseIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIntervalView.swift; sourceTree = "<group>"; };
@@ -56,11 +60,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5A664B8529FED983005239B6 /* Views */ = {
+		5A1E14E62A011A2A00237B9C /* CoinService */ = {
+			isa = PBXGroup;
+			children = (
+				5A1E14E72A011A4900237B9C /* CoinService.swift */,
+				5A3E5B152A011B4A00C18D30 /* NetworkManager.swift */,
+				5AC5A56D29FE506D00765C35 /* Websocket.swift */,
+			);
+			path = CoinService;
+			sourceTree = "<group>";
+		};
+		5A1E14E92A011A6400237B9C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5A1E14EA2A011A6F00237B9C /* CoinViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5A1E14EC2A011A7F00237B9C /* CoinChart */ = {
+			isa = PBXGroup;
+			children = (
+				5A1E14E62A011A2A00237B9C /* CoinService */,
+				5A1E14E92A011A6400237B9C /* ViewModel */,
+				5A3E5B172A011B7000C18D30 /* View */,
+			);
+			path = CoinChart;
+			sourceTree = "<group>";
+		};
+		5A3E5B172A011B7000C18D30 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				5AD2BB6329FF6C5D00CBC4A2 /* ChooseIntervalView */,
 				5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5A3E5B1A2A011C1800C18D30 /* Coire */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coire;
+			sourceTree = "<group>";
+		};
+		5A664B8529FED983005239B6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -84,6 +130,8 @@
 		5AC5A55429FE4D1B00765C35 /* BitcoinChart */ = {
 			isa = PBXGroup;
 			children = (
+				5A3E5B1A2A011C1800C18D30 /* Coire */,
+				5A1E14EC2A011A7F00237B9C /* CoinChart */,
 				5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */,
 				5AC5A55729FE4D1B00765C35 /* ContentView.swift */,
 				5A664B8529FED983005239B6 /* Views */,
@@ -129,8 +177,6 @@
 		5AC5A56C29FE506200765C35 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				5AC5A56D29FE506D00765C35 /* Websocket.swift */,
-				5AC5A57129FE51AC00765C35 /* NetworkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -220,12 +266,14 @@
 				5AD2BB6729FF6CB100CBC4A2 /* IntervalRange.swift in Sources */,
 				5AC5A56B29FE4F8D00765C35 /* Extensions.swift in Sources */,
 				5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */,
+				5A1E14EB2A011A6F00237B9C /* CoinViewModel.swift in Sources */,
+				5A3E5B162A011B4A00C18D30 /* NetworkManager.swift in Sources */,
 				5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */,
 				5AC5A55829FE4D1B00765C35 /* ContentView.swift in Sources */,
 				5AC5A56829FE4F3A00765C35 /* Candelstick.swift in Sources */,
 				5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */,
+				5A1E14E82A011A4A00237B9C /* CoinService.swift in Sources */,
 				5AD2BB6229FF441100CBC4A2 /* Constants.swift in Sources */,
-				5AC5A57229FE51AC00765C35 /* NetworkManager.swift in Sources */,
 				5A3DD0B42A00A2EF00EDAE15 /* ServerTime.swift in Sources */,
 				5AC5A56429FE4E8B00765C35 /* MockData.swift in Sources */,
 				5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */,
