@@ -9,7 +9,11 @@ import SwiftUI
 import Charts
 
 struct CoinView: View {
-    @StateObject var vm = CoinViewModel(coinFetcher: CoinService(requestManager: RequestManager()))
+    @StateObject var vm = CoinViewModel(
+        coinFetcher: CoinService(requestManager: RequestManager()),
+        statisticFetcher: WebsocketService(),
+        coinPersistence: CoinPersistenceService()
+    )
     @State private var isPortrait = true
     var body: some View {
         GeometryReader { proxy in
@@ -24,21 +28,22 @@ struct CoinView: View {
                         .padding(.top, 20)
                         HStack {
                             currentPrice
+                                .frame(maxWidth: proxy.size.width * 0.5)
                             Spacer()
                             statisticView
-                                .frame(maxWidth: 200)
+                                .frame(maxWidth: proxy.size.width * 0.5)
                         }
                         .frame(maxWidth: .infinity, maxHeight: proxy.size.width * 0.6)
                         .padding(.horizontal)
                     }
-                    ChooseIntervalView(selectedRange: $vm.selectedRange)
+                    ChooseIntervalView(selectedRange: $vm.selectedRange.animation(.easeInOut))
                 }
                 CandleStickChart(chartData: vm.chartData)
                     .frame(width: proxy.size.width)
                     .frame(maxHeight: proxy.size.height * (isPortrait ? 0.5 : 1))
             }
-            .padding(.horizontal)
         }
+        .ignoresSafeArea(edges: .horizontal)
         .onAppear {
             Task {
                 await vm.fetchCoinKlineData()
@@ -91,11 +96,11 @@ extension CoinView {
     func priceView(title: String?, value: String?) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title ?? "")
-                .font(.subheadline)
+                .font(.caption)
                 .fontWeight(.medium)
                 .foregroundColor(.gray)
             Text(value ?? "")
-                .font(.subheadline)
+                .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(.black)
         }

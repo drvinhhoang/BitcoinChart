@@ -5,32 +5,44 @@
 //  Created by VinhHoang on 02/05/2023.
 //
 
-import Foundation
 import Combine
 import CoreData
-import SwiftUI
 
 protocol CoinFetcher {
     func fetchCoinKlineData(interval: String, endTime: String, limit: String) async throws -> [CoinData]
     func getServerTime() async throws -> String?
-    func getCurrentPrice() async -> String?
+    func getCurrentPrice() async -> CurrentPrice?
+}
+
+protocol StatisticFetcher {
+    var subject: PassthroughSubject<Statistic24h, Never> { get }
+}
+
+protocol CoinPersistence {
+    var savedCandlesticks: PassthroughSubject<[CandlestickEntity], Never> { get }
+    var savedStatistic24h: PassthroughSubject<Statistic24hEntity?, Never> { get }
+    var currentPrice: PassthroughSubject<String, Never> { get }
+    func save(candlesticks: [CandleStick], interval: IntervalRange) async throws
+    func saveCurrentPrice(_ price: CurrentPrice?) async throws
+    func saveStatistic(_ statistic: Statistic24h?) async throws
+    func updateDisplayData(range: IntervalRange)
 }
 
 final class CoinViewModel: ObservableObject {
-    private var webSocketTasks24h: URLSessionWebSocketTask!
     private var task: Task<(), Error>?
     private let timer = Timer
         .publish(every: 2, on: .main, in: .common)
         .autoconnect()
     private var cancellables = Set<AnyCancellable>()
     private let coinFetcher: CoinFetcher
-    let persistence: CoinPersistenceService
+    private let persistence: CoinPersistence
+    private let statisticFetcher: StatisticFetcher
     
     @Published @MainActor var priceChangePercent: Double = 0.00
     @Published @MainActor var chartData: ChartData? = nil
     @Published @MainActor var currentPrice: String = ""
     @Published @MainActor var statistic24h: Statistic24h? = nil
-    @Published @MainActor var selectedRange = IntervalRange.fourHour {
+    @Published var selectedRange = IntervalRange.fourHour {
         didSet {
             task?.cancel()
             task = Task {
@@ -39,66 +51,61 @@ final class CoinViewModel: ObservableObject {
         }
     }
     
-    init(coinFetcher: CoinFetcher) {
+    init(coinFetcher: CoinFetcher, statisticFetcher: StatisticFetcher, coinPersistence: CoinPersistence) {
         self.coinFetcher = coinFetcher
-        self.persistence = CoinPersistenceService()
+        self.persistence = coinPersistence
+        self.statisticFetcher = statisticFetcher
+        addSubscriptions()
         Task {
-            let currentPrice = await coinFetcher.getCurrentPrice()
-            await MainActor.run {
-                guard let currentPrice else { return }
-                self.currentPrice = currentPrice
-            }
-            await subscribeSavedData()
+            await getCurrentPrice()
         }
-        getStatistic24h()
-        subscribeTimer()
     }
-    
-    func subscribeSavedData() async {
-        async let _ = await persistence.$savedCandlesticks
-            .sink { (candles) in
-                let candlesticks = candles.map { CandleStick(managedObject: $0) }
+}
+
+// MARK: - Subscrtiptions
+extension CoinViewModel {
+    private func addSubscriptions() {
+        addPersistenceSubscriptions()
+        $chartData
+            .combineLatest($currentPrice)
+            .compactMap(calculatePriceChangePercent)
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$priceChangePercent)
+        
+        timer
+            .sink { _ in
                 Task {
-                    await MainActor.run {
-                        self.getChartData(from: candlesticks, interval: self.selectedRange)
-                    }
+                    await self.getCurrentPrice()
                 }
             }
             .store(in: &cancellables)
         
-       await persistence.$savedStatistic24h
+        statisticFetcher.subject
+            .sink { statistic in
+                Task {
+                    try? await self.persistence.saveStatistic(statistic)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func addPersistenceSubscriptions() {
+        persistence.savedCandlesticks
+            .combineLatest($selectedRange)
+            .map(convertChartData)
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$chartData)
+        
+        persistence.savedStatistic24h
             .compactMap({ savedObject in
                 Statistic24h(managedObject: savedObject)
             })
-            
             .receive(on: DispatchQueue.main)
             .assign(to: &$statistic24h)
-            
-            
-
         
-//            .sink(receiveValue: { savedStatistic in
-//                Task {
-//                    guard let savedStatistic else { return }
-//                    await MainActor.run {
-//                        self.statistic24h = Statistic24h(managedObject: savedStatistic)
-//                    }
-//                }
-//            })
-    }
-    
-    deinit {
-        closeScocket()
-    }
-    
-    func subscribeTimer() {
-        timer
-            .sink { time in
-                Task {
-                    await self.coinFetcher.getCurrentPrice()
-                }
-            }
-            .store(in: &cancellables)
+        persistence.currentPrice
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$currentPrice)
     }
 }
 
@@ -112,85 +119,34 @@ extension CoinViewModel {
             }
             let klineData = try await coinFetcher.fetchCoinKlineData(interval: interval.rawValue, endTime: serverTime, limit: String(interval.candleCount))
             let candlesticks = klineData.compactMap { $0.toCandleStick(with: interval) }
-            try await persistence.add(candlesticks: candlesticks, interval: interval)
+            try await persistence.save(candlesticks: candlesticks, interval: interval)
         } catch {
             BCLogger.log(error.localizedDescription)
-            await persistence.getStoredCandlesticks(range: interval)
+            persistence.updateDisplayData(range: interval)
         }
     }
     
-    @MainActor
-    private func getChartData(from candlesticks: [CandleStick], interval: IntervalRange) {
-        let matchedCandles = candlesticks.filter({ $0.intervalRange == interval.rawValue })
-        let chartRange = getChartRange(matchedCandles)
-        let chartData = ChartData(items: matchedCandles, intervalRange: interval, bounds: chartRange)
-        self.chartData = chartData
-        self.priceChangePercent = self.calculatePriceChangePercent(openPrice: chartData.lastOpenPrice)
+    private func getCurrentPrice() async {
+        let currentPrice = await coinFetcher.getCurrentPrice()
+        do {
+            try await persistence.saveCurrentPrice(currentPrice)
+        } catch {
+            BCLogger.log(error.localizedDescription)
+        }
     }
 }
 
 // MARK: - HELPERS
 extension CoinViewModel {
-    private func getChartRange(_ arr: [CandleStick]) -> ClosedRange<Double> {
-        let max = arr.max(by: { $0.high < $1.high })?.high ?? 0
-        let low = arr.min(by: { $0.low < $1.low })?.low ?? 0
-        return low...max
-    }
-    
-    @MainActor
-    private func calculatePriceChangePercent(openPrice: Double?) -> Double {
-        guard let openPrice else { return 0 }
+    private func calculatePriceChangePercent(chartData: ChartData?, currentPrice: String) -> Double? {
+        guard let openPrice = chartData?.lastOpenPrice else { return nil }
         let changePercent = ((Double(currentPrice) ?? 0) - openPrice) / openPrice
         let percent = changePercent * 100
         return percent
     }
-}
-
-// MARK: - SOCKET
-
-extension CoinViewModel {
     
-    func getStatistic24h() {
-        let webSocketURL = URL(string:"wss://stream.binance.com:9443/ws/btcusdt@ticker")!
-        webSocketTasks24h = setupSocket(url: webSocketURL)
-        listenForStatistic24h()
-    }
-    
-    func setupSocket(url: URL) -> URLSessionWebSocketTask {
-        let ws = URLSession.shared.webSocketTask(with: url)
-        ws.resume()
-        return ws
-    }
-    
-    func listenForStatistic24h() {
-        webSocketTasks24h.receive { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .failure(let error):
-                print("Failed to receive message: \(error)")
-            case .success(let message):
-                switch message {
-                case .string(let text):
-                    Task {
-                        guard let data = text.data(using: .utf8) else { return }
-                        let object = try? JSONDecoder().decode(Statistic24h.self, from: data)
-                        do {
-                            try await self.persistence.saveStatistic(object)
-                        } catch {
-                            BCLogger.log(error.localizedDescription)
-                        }
-                    }
-                case .data(let data):
-                    print("Received binary message: \(data)")
-                @unknown default:
-                    fatalError()
-                }
-            }
-            self.listenForStatistic24h()
-        }
-    }
-    
-    func closeScocket() {
-        webSocketTasks24h.cancel(with: .goingAway, reason: nil)
+    private func convertChartData(_ savedEntities: [CandlestickEntity], interval: IntervalRange) -> ChartData {
+        let candlesticks = savedEntities.map { CandleStick(managedObject: $0) }
+        return ChartData(candlesticks, intervalRange: interval)
     }
 }

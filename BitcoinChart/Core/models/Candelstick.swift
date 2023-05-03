@@ -24,7 +24,7 @@ enum CoinProperty: Codable {
             self = .string(x)
             return
         }
-        throw DecodingError.typeMismatch(CoinData.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for WelcomeElement"))
+        throw DecodingError.typeMismatch(CoinData.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for CoinProperty"))
     }
     
     func encode(to encoder: Encoder) throws {
@@ -138,7 +138,7 @@ extension CandleStick {
     }
     
     mutating func toManagedObject(context: NSManagedObjectContext) {
-        var candlestickEntity = CandlestickEntity.init(context: context)
+        let candlestickEntity = CandlestickEntity.init(context: context)
         candlestickEntity.id = self.id
         candlestickEntity.intervalRange = self.intervalRange
         candlestickEntity.timestamp = self.timestamp

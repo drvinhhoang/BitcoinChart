@@ -20,7 +20,7 @@ struct Statistic24h: Codable {
     }
     
     var formattedHigh: String {
-        Double(high ?? "0")?.asNumberWith2Decimals() ?? ""
+        Double(high ?? "")?.asNumberWith2Decimals() ?? ""
     }
     
     var formattedLow: String {

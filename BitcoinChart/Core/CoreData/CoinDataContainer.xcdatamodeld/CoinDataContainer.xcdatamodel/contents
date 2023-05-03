@@ -9,6 +9,9 @@
         <attribute name="open" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
+    <entity name="CurrentPriceEntity" representedClassName="CurrentPriceEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="currentPrice" attributeType="String"/>
+    </entity>
     <entity name="Statistic24hEntity" representedClassName="Statistic24hEntity" syncable="YES" codeGenerationType="class">
         <attribute name="baseVolume" attributeType="String"/>
         <attribute name="high" attributeType="String"/>

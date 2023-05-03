@@ -16,11 +16,11 @@ actor CoinService {
 }
 
 extension CoinService: CoinFetcher {
-    func getCurrentPrice() async -> String? {
+    func getCurrentPrice() async -> CurrentPrice? {
         let request = CoinRequest.getCurrentPrice
         do {
             let currentPriceData: CurrentPrice = try await requestManager.initRequest(with: request)
-            return currentPriceData.price
+            return currentPriceData
         } catch {
             BCLogger.log(error.localizedDescription)
             return nil

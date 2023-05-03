@@ -91,5 +91,4 @@ extension Double {
             return "\(sign)\(self)"
         }
     }
-
 }

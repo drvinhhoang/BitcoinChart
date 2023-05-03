@@ -41,5 +41,3 @@ extension Date {
         return calendar.component(component, from: self)
     }
 }
-
-
