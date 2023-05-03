@@ -23,6 +23,7 @@
 		5A1E14EB2A011A6F00237B9C /* CoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E14EA2A011A6F00237B9C /* CoinViewModel.swift */; };
 		5A2C4E472A013EB90080445F /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2C4E462A013EB90080445F /* ChartData.swift */; };
 		5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B52A00E40A00EDAE15 /* Double.swift */; };
+		5A54A5832A01FC1700E507EF /* ServerTimeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A54A5822A01FC1700E507EF /* ServerTimeRequest.swift */; };
 		5AC5A55629FE4D1B00765C35 /* BitcoinChartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */; };
 		5AC5A55829FE4D1B00765C35 /* CoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A55729FE4D1B00765C35 /* CoinView.swift */; };
 		5AC5A55A29FE4D1D00765C35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5A55929FE4D1D00765C35 /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 		5A1E14EA2A011A6F00237B9C /* CoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinViewModel.swift; sourceTree = "<group>"; };
 		5A2C4E462A013EB90080445F /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		5A3DD0B52A00E40A00EDAE15 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		5A54A5822A01FC1700E507EF /* ServerTimeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTimeRequest.swift; sourceTree = "<group>"; };
 		5AC5A55229FE4D1B00765C35 /* BitcoinChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitcoinChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinChartApp.swift; sourceTree = "<group>"; };
 		5AC5A55729FE4D1B00765C35 /* CoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinView.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 		5A00DD362A012067001E8424 /* serverTime */ = {
 			isa = PBXGroup;
 			children = (
+				5A54A5822A01FC1700E507EF /* ServerTimeRequest.swift */,
 			);
 			path = serverTime;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */,
 				5A00DD382A01207F001E8424 /* RequestManager.swift in Sources */,
 				5A00DD3A2A0120A1001E8424 /* RequestProtocol.swift in Sources */,
+				5A54A5832A01FC1700E507EF /* ServerTimeRequest.swift in Sources */,
 				5A1E14EB2A011A6F00237B9C /* CoinViewModel.swift in Sources */,
 				5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */,
 				5A00DD332A012025001E8424 /* CoinRequest.swift in Sources */,
@@ -485,9 +489,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -515,9 +518,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

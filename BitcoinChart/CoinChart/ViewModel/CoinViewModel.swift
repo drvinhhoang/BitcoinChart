@@ -71,7 +71,7 @@ extension CoinViewModel {
         let klineData = await coinFetcher.fetchCoinKlineData(interval: interval.rawValue, endTime: serverTime, limit: String(interval.candleCount))
         let candleSticks = klineData.compactMap(\.candleStick)
         let chartRange = getChartRange(candleSticks)
-        let chartData = ChartData(items: candleSticks, bounds: chartRange)
+        let chartData = ChartData(items: candleSticks, intervalRange: interval, bounds: chartRange)
         await MainActor.run(body: {
             self.chartData = chartData
             self.priceChangePercent = self.calculatePriceChangePercent(openPrice: chartData.lastOpenPrice)

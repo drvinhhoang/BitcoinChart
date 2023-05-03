@@ -30,13 +30,3 @@ final class RequestManager: RequestManagerProtocol {
         return try jsonDecoder.decode(T.self, from: data)
     }
 }
-
-final class ServerTimeRequest: RequestProtocol {
-    var requestType: RequestType {
-        .GET
-    }
-    
-    var path: String {
-        "/api/v3/time"
-    }
-}

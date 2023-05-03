@@ -61,5 +61,4 @@ public enum IntervalRange: String, CaseIterable, Identifiable {
             return 10
         }
     }
-
 }

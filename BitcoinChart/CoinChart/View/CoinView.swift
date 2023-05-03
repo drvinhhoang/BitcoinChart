@@ -10,37 +10,45 @@ import Charts
 
 struct CoinView: View {
     @StateObject var vm = CoinViewModel(coinFetcher: CoinService(requestManager: RequestManager()))
+    @State private var isPortrait = true
     var body: some View {
         GeometryReader { proxy in
-            
             VStack {
-                VStack {
-                    HStack {
-                        Text("BTC/USDT")
-                            .fontWeight(.bold)
-                            .font(.headline)
+                if isPortrait {
+                    VStack {
+                        HStack {
+                            Text("BTC/USDT")
+                                .fontWeight(.bold)
+                                .font(.largeTitle)
+                        }
+                        .padding(.top, 20)
+                        HStack {
+                            currentPrice
+                            Spacer()
+                            statisticView
+                                .frame(maxWidth: 200)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: proxy.size.width * 0.6)
+                        .padding(.horizontal)
                     }
-                    HStack {
-                        currentPrice
-                        Spacer()
-                        statisticView
-                            .frame(maxWidth: 200)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: 300)
-                    .padding(.horizontal)
+                    ChooseIntervalView(selectedRange: $vm.selectedRange)
                 }
-                ChooseIntervalView(selectedRange: $vm.selectedRange)
-                ScrollView(.horizontal) {
-                    CandleStickChart(prices: vm.chartData?.items ?? [], candleWidth: vm.selectedRange.candleWidth, bound: vm.chartData?.bounds ?? 0...10000)
-                        .frame(width:  proxy.size.width, height: proxy.size.height * 0.4)
-                }
+                CandleStickChart(chartData: vm.chartData)
+                    .frame(width: proxy.size.width)
+                    .frame(maxHeight: proxy.size.height * (isPortrait ? 0.5 : 1))
             }
+            .padding(.horizontal)
         }
         .onAppear {
             Task {
-                 await vm.fetchCoinKlineData()
+                await vm.fetchCoinKlineData()
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+            guard let scene = UIApplication.shared.windows.first?.windowScene else { return }
+            self.isPortrait = scene.interfaceOrientation.isPortrait
+        }
+        
     }
     
     private var currentPrice: some View {
@@ -57,7 +65,7 @@ struct CoinView: View {
     }
     
     private var statisticView: some View {
-        HStack {
+        HStack(spacing: 20) {
             VStack(spacing: 12) {
                 priceView(title: "24h High", value: vm.statistic24h?.formattedHigh)
                 priceView(title: "24h Low", value: vm.statistic24h?.formattedLow)
@@ -71,13 +79,13 @@ struct CoinView: View {
     
     @ViewBuilder
     func priceView(title: String?, value: String?) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: 8) {
             Text(title ?? "")
-                .font(.caption)
+                .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(.gray)
             Text(value ?? "")
-                .font(.caption)
+                .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundColor(.black)
         }
@@ -87,5 +95,6 @@ struct CoinView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         CoinView()
+            .previewDevice("iPhone 8")
     }
 }

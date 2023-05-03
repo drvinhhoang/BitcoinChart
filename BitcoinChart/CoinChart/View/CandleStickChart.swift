@@ -10,15 +10,15 @@ import Charts
 
 struct CandleStickChart: View {
 
-    var currentPrices: [CandleStick]
+    var candleSticks: [CandleStick]
     var candleWidth: Double
     
     var bound: ClosedRange<Double>
     
-    init(prices: [CandleStick], candleWidth: Double, bound: ClosedRange<Double>) {
-        self.currentPrices = prices
-        self.candleWidth = candleWidth
-        self.bound = bound
+    init(chartData: ChartData?) {
+        self.candleSticks = chartData?.items ?? []
+        self.candleWidth = chartData?.intervalRange.candleWidth ?? 0
+        self.bound = chartData?.bounds ?? 0...10000
     }
 
     var body: some View {
@@ -28,20 +28,22 @@ struct CandleStickChart: View {
     }
 
     private var chart: some View {
-        Chart(currentPrices) { price in
-            CandleStickMark(
-                timestamp: .value("Date", price.timestamp),
-                open: .value("Open", price.open),
-                high: .value("High", price.high),
-                low: .value("Low", price.low),
-                close: .value("Close", price.close),
-                width: candleWidth)
-            
-            .foregroundStyle(price.open < price.close ? .green : .red)
+        GeometryReader { proxy in
+            Chart(candleSticks) { candle in
+                CandleStickMark(
+                    timestamp: .value("Date", candle.timestamp),
+                    open: .value("Open", candle.open),
+                    high: .value("High", candle.high),
+                    low: .value("Low", candle.low),
+                    close: .value("Close", candle.close),
+                    width: (proxy.size.width / CGFloat(candleSticks.count)) * 0.85)
+                .foregroundStyle(candle.open < candle.close ? .green : .red)
+            }
+            .chartYAxis { AxisMarks(preset: .automatic, values: .stride(by: 1000)) }
+            .chartYScale(domain: bound)
+            .padding(.horizontal)
         }
-        .chartYAxis { AxisMarks(preset: .automatic, values: .stride(by: 1000)) }
-        .chartYScale(domain: bound)
-        .padding(.horizontal)
+       
     }
 }
 
@@ -52,6 +54,9 @@ struct CandleStickMark: ChartContent {
     let low: PlottableValue<Double>
     let close: PlottableValue<Double>
     let width: Double
+    var hlWidth: Double {
+        width * 0.2
+    }
     
     var body: some ChartContent {
         Plot {
@@ -66,7 +71,7 @@ struct CandleStickMark: ChartContent {
                 x: timestamp,
                 yStart: high,
                 yEnd: low,
-                width: 2
+                width: MarkDimension(floatLiteral: hlWidth)
             )
             .opacity(0.5)
         }

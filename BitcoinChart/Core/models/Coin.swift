@@ -52,28 +52,3 @@ struct KLine: Codable {
         case ignore = "B"
     }
 }
-
-let coin = Coin(
-    eventType: "kline",
-    eventTime: 1682814793580,
-    symbol: "BTCUSDT",
-    kLine: KLine(startTime: 1682814780000,
-                 closeTime: 1682814839999,
-                 symbol: "BTCUSDT",
-                 interval: "1m",
-                 firstTradeId: 3100292333,
-                 lastTradeId: 3100292519,
-                 openPrice: "29189.47000000",
-                 closePrice: "29185.75000000",
-                 highPrice: "29189.48000000",
-                 lowPrice: "29185.74000000",
-                 baseAssetVolume: "0.81487000",
-                 numberOfTrades: 187,
-                 isKLineClosed: false,
-                 quoteAssetVolume: "23783.46872390",
-                 takerBuyBaseAssetVolume: "0.20981000",
-                 takerBuyQuoteAssetVolume: "6123.78564460",
-                 ignore: "0"
-                ))
-
-
