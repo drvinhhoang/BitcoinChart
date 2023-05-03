@@ -48,9 +48,19 @@ struct CoinView: View {
             guard let scene = UIApplication.shared.windows.first?.windowScene else { return }
             self.isPortrait = scene.interfaceOrientation.isPortrait
         }
-        
     }
-    
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        CoinView()
+            .previewDevice("iPhone 8")
+    }
+}
+
+// MARK: - Views
+
+extension CoinView {
     private var currentPrice: some View {
         HStack {
             Text(Double(vm.currentPrice)?.asNumberWith2Decimals() ?? "")
@@ -89,12 +99,5 @@ struct CoinView: View {
                 .fontWeight(.semibold)
                 .foregroundColor(.black)
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        CoinView()
-            .previewDevice("iPhone 8")
     }
 }

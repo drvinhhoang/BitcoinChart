@@ -37,51 +37,11 @@ struct CandleStickChart: View {
                     low: .value("Low", candle.low),
                     close: .value("Close", candle.close),
                     width: (proxy.size.width / CGFloat(candleSticks.count)) * 0.85)
-                .foregroundStyle(candle.open < candle.close ? .green : .red)
+                .foregroundStyle(candle.isClosingHigher ? .green : .red)
             }
             .chartYAxis { AxisMarks(preset: .automatic, values: .stride(by: 1000)) }
             .chartYScale(domain: bound)
             .padding(.horizontal)
         }
-       
     }
 }
-
-struct CandleStickMark: ChartContent {
-    let timestamp: PlottableValue<Date>
-    let open: PlottableValue<Double>
-    let high: PlottableValue<Double>
-    let low: PlottableValue<Double>
-    let close: PlottableValue<Double>
-    let width: Double
-    var hlWidth: Double {
-        width * 0.2
-    }
-    
-    var body: some ChartContent {
-        Plot {
-            // Composite ChartContent MUST be grouped into a plot for accessibility to work
-            BarMark(
-                x: timestamp,
-                yStart: open,
-                yEnd: close,
-                width: MarkDimension(floatLiteral: width)
-            )
-            BarMark(
-                x: timestamp,
-                yStart: high,
-                yEnd: low,
-                width: MarkDimension(floatLiteral: hlWidth)
-            )
-            .opacity(0.5)
-        }
-    }
-}
-
-// MARK: - Preview
-
-//struct CandleStickChart_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CandleStickChart(prices: [], candleWidth: 10)
-//    }
-//}

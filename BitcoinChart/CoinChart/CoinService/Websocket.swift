@@ -6,16 +6,13 @@
 //
 
 import Foundation
+import CoreData
 
 // MARK: - Welcome
 struct Statistic24h: Codable {
-    let symbol, priceChangePercent, averagePrice, high: String?
-    let low, baseVolume, quoteVolume: String?
+    let high, low, baseVolume, quoteVolume: String?
 
     enum CodingKeys: String, CodingKey {
-        case symbol = "s"
-        case priceChangePercent = "P"
-        case averagePrice = "w"
         case high = "h"
         case low = "l"
         case baseVolume = "v"
@@ -36,5 +33,24 @@ struct Statistic24h: Codable {
     
     var formattedQuoteVolume: String {
         Double(quoteVolume ?? "")?.formattedWithAbbreviations() ?? ""
+    }
+}
+
+// MARK: - Coredata entity
+
+extension Statistic24h {
+    init?(managedObject: Statistic24hEntity?) {
+        self.high = managedObject?.high
+        self.low = managedObject?.low
+        self.baseVolume = managedObject?.baseVolume
+        self.quoteVolume = managedObject?.quoteVolume
+    }
+    
+    mutating func toManagedObject(context: NSManagedObjectContext) {
+        let statistic24h = Statistic24hEntity(context: context)
+        statistic24h.high = self.high
+        statistic24h.low = self.low
+        statistic24h.baseVolume = self.baseVolume
+        statistic24h.quoteVolume = self.quoteVolume
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 typealias CoinData = [CoinProperty]
 
@@ -97,20 +98,23 @@ extension CoinData {
         return nil
     }
     
-    var candleStick: CandleStick? {
+    func toCandleStick(with intervalRange: IntervalRange) -> CandleStick? {
         guard let open, let close, let high, let low, let openTime else {
             return nil
         }
-        return CandleStick(timestamp: Date(timeIntervalSince1970: (Double(openTime)/1000)),
-                                      open: open,
-                                      close: close,
-                                      high: high,
-                                      low: low)
+        return CandleStick(id: UUID(),
+                           intervalRange: intervalRange.rawValue,
+                           timestamp: Date(timeIntervalSince1970: (Double(openTime)/1000)),
+                           open: open,
+                           close: close,
+                           high: high,
+                           low: low)
     }
 }
 
 struct CandleStick: Identifiable {
-    let id = UUID()
+    let id: UUID
+    let intervalRange: String
     let timestamp: Date
     let open: Double
     let close: Double
@@ -119,7 +123,28 @@ struct CandleStick: Identifiable {
 }
 
 extension CandleStick {
+    init(managedObject: CandlestickEntity) {
+        self.id = managedObject.id ?? UUID()
+        self.intervalRange = managedObject.intervalRange ?? ""
+        self.timestamp = managedObject.timestamp ?? Date()
+        self.open = managedObject.open
+        self.close = managedObject.close
+        self.high = managedObject.high
+        self.low = managedObject.low
+    }
+    
     var isClosingHigher: Bool {
         self.open < self.close
+    }
+    
+    mutating func toManagedObject(context: NSManagedObjectContext) {
+        var candlestickEntity = CandlestickEntity.init(context: context)
+        candlestickEntity.id = self.id
+        candlestickEntity.intervalRange = self.intervalRange
+        candlestickEntity.timestamp = self.timestamp
+        candlestickEntity.open = self.open
+        candlestickEntity.close = self.close
+        candlestickEntity.high = self.high
+        candlestickEntity.low = self.low
     }
 }

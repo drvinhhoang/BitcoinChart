@@ -27,25 +27,15 @@ extension CoinService: CoinFetcher {
         }
     }
     
-    func getServerTime() async -> String? {
+    func getServerTime() async throws-> String? {
         let request = ServerTimeRequest()
-        do {
-            let data: ServerTime = try await requestManager.initRequest(with: request)
-            return String(data.serverTime)
-        } catch {
-            BCLogger.log(error.localizedDescription)
-            return nil
-        }
+        let data: ServerTime = try await requestManager.initRequest(with: request)
+        return String(data.serverTime)
     }
     
-    func fetchCoinKlineData(interval: String, endTime: String, limit: String) async -> [CoinData] {
+    func fetchCoinKlineData(interval: String, endTime: String, limit: String) async throws -> [CoinData] {
         let request = CoinRequest.getBtcUsdtKline(interval: interval, endTime: endTime, limit: limit)
-        do {
-            let coinData: [CoinData] = try await requestManager.initRequest(with: request)
-            return coinData
-        } catch {
-            BCLogger.log(error.localizedDescription)
-            return []
-        }
+        let coinData: [CoinData] = try await requestManager.initRequest(with: request)
+        return coinData
     }
 }

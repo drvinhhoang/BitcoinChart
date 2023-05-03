@@ -8,6 +8,5 @@
 import Foundation
 
 struct CurrentPrice: Codable {
-    let mins: Int
     let price: String
 }
