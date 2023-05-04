@@ -22,7 +22,7 @@ public enum IntervalRange: String, CaseIterable, Identifiable {
     public var candleCount: Int {
         switch self {
         case .oneMins:
-            return 1 * (60)
+            return 2 * (60)
         case .fiveMins:
             return 1 * 6 * (60/5)
         case .fifteenMins:

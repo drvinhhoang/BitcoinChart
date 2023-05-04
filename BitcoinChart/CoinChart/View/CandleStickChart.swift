@@ -15,17 +15,27 @@ struct CandleStickChart: View {
     
     var bound: ClosedRange<Double>
     let chartData: ChartData?
+    let isLoading: Bool
     
-    init(chartData: ChartData?) {
+    init(chartData: ChartData?, isLoading: Bool) {
         self.chartData = chartData
         self.candleSticks = chartData?.items ?? []
         self.candleWidth = chartData?.intervalRange.candleWidth ?? 0
-        self.bound = chartData?.bounds ?? 0...10000
+        self.bound = chartData?.bounds ?? 0...100
+        self.isLoading = isLoading
     }
 
     var body: some View {
         VStack {
-            chart
+            ZStack {
+                chart
+                if isLoading {
+                    ProgressView("Loading...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                    
+                }
+            }
         }
     }
 
@@ -41,10 +51,9 @@ struct CandleStickChart: View {
                     width: (proxy.size.width / CGFloat(candleSticks.count)) * 0.8)
                 .foregroundStyle(candle.isClosingHigher ? .green : .red)
             }
-            .chartYAxis { AxisMarks(preset: .automatic, values: .stride(by: 100)) }
+            .chartYAxis { AxisMarks(preset: .automatic, values: .automatic()) }
+            .chartXAxis { AxisMarks(preset: .automatic, values: .automatic()) }
             .chartYScale(domain: bound)
-            .padding(.horizontal)
-            .animation(.easeInOut, value: chartData?.intervalRange ?? .fourHour)
         }
     }
 }

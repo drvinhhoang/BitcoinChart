@@ -25,27 +25,23 @@ struct CoinView: View {
                                 .fontWeight(.bold)
                                 .font(.largeTitle)
                         }
-                        .padding(.top, 20)
-                        HStack {
+                        .padding(.top, 40)
+                        HStack(alignment: .center) {
                             currentPrice
-                                .frame(maxWidth: proxy.size.width * 0.5)
                             Spacer()
                             statisticView
-                                .frame(maxWidth: proxy.size.width * 0.5)
                         }
-                        .frame(maxWidth: .infinity, maxHeight: proxy.size.width * 0.6)
-                        .padding(.horizontal)
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: proxy.size.height * 0.6)
                     }
                     ChooseIntervalView(selectedRange: $vm.selectedRange.animation(.easeInOut))
                 }
-                CandleStickChart(chartData: vm.chartData)
-                    .frame(width: proxy.size.width)
-                    .frame(maxHeight: proxy.size.height * (isPortrait ? 0.5 : 1))
+                CandleStickChart(chartData: vm.chartData, isLoading: vm.isLoading)
                     .padding()
+                    .frame(width: proxy.size.width, height: proxy.size.height * (isPortrait ? 0.5 : 1))
                     .overlay(
-                        Image(systemName: isPortrait ? ImageName.fullScreenIcon : ImageName.minimizeIcon)
-                            .padding()
-                            .offset(x: 10)
+                        FullScreenButton(isPortrait: isPortrait)
+                            .offset(x: 40, y: -40)
                             .onTapGesture(perform: {
                                 isPortrait.toggle()
                                 changeOrientation(to: isPortrait ? .portrait : .landscape)
@@ -56,7 +52,9 @@ struct CoinView: View {
         }
         .onAppear {
             Task {
+                await vm.showLoading(true)
                 await vm.fetchCoinKlineData()
+                await vm.showLoading(false)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in

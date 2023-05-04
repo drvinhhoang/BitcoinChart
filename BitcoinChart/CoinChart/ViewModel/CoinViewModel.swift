@@ -43,12 +43,15 @@ final class CoinViewModel: ObservableObject {
     @Published @MainActor var chartData: ChartData? = nil
     @Published @MainActor var currentPrice: String = ""
     @Published @MainActor var statistic24h: Statistic24h? = nil
+    @Published @MainActor var isLoading: Bool = false
     @Published var selectedRange = IntervalRange.fourHour {
         didSet {
             selectRangeTask?.cancel()
             intervalUpdateTask?.cancel()
             selectRangeTask = Task {
+                await showLoading(true)
                 await fetchCoinKlineData(interval: selectedRange)
+                await showLoading(false)
             }
         }
     }
@@ -153,5 +156,11 @@ extension CoinViewModel {
     private func convertChartData(_ savedEntities: [CandlestickEntity], interval: IntervalRange) -> ChartData {
         let candlesticks = savedEntities.map { CandleStick(managedObject: $0) }
         return ChartData(candlesticks, intervalRange: interval)
+    }
+    
+    func showLoading(_ show: Bool) async {
+        await MainActor.run {
+            isLoading = show
+        }
     }
 }

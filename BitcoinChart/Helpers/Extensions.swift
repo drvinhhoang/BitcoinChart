@@ -47,3 +47,7 @@ enum ImageName {
     static let fullScreenIcon = "arrow.up.left.and.arrow.down.right"
     static let minimizeIcon = "arrow.down.right.and.arrow.up.left"
 }
+
+extension Color {
+    static let lightGray = Color("#D3D3D3")
+}

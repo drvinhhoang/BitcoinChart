@@ -34,7 +34,7 @@ struct CandleStickMark: ChartContent {
                 yEnd: low,
                 width: MarkDimension(floatLiteral: hlWidth)
             )
-            .opacity(0.5)
+            .opacity(0.8)
         }
     }
 }

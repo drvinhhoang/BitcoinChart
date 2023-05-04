@@ -39,9 +39,4 @@ extension Collection where Element == CandleStick {
         let low = self.min(by: { $0.low < $1.low })?.low ?? 0
         return low
     }
-    
-    var stride: Int {
-        let diff = (high - low) / 10
-        return Int(diff)
-    }
 }
