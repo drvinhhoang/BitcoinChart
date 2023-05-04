@@ -29,7 +29,8 @@ protocol CoinPersistence {
 }
 
 final class CoinViewModel: ObservableObject {
-    private var task: Task<(), Error>?
+    private var selectRangeTask: Task<(), Error>?
+    private var intervalUpdateTask: Task<(), Error>?
     private let timer = Timer
         .publish(every: 2, on: .main, in: .common)
         .autoconnect()
@@ -44,8 +45,9 @@ final class CoinViewModel: ObservableObject {
     @Published @MainActor var statistic24h: Statistic24h? = nil
     @Published var selectedRange = IntervalRange.fourHour {
         didSet {
-            task?.cancel()
-            task = Task {
+            selectRangeTask?.cancel()
+            intervalUpdateTask?.cancel()
+            selectRangeTask = Task {
                 await fetchCoinKlineData(interval: selectedRange)
             }
         }
@@ -73,15 +75,18 @@ extension CoinViewModel {
             .assign(to: &$priceChangePercent)
         
         timer
-            .sink { _ in
-                Task {
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.intervalUpdateTask = Task {
                     await self.getCurrentPrice()
+                    await self.fetchCoinKlineData(interval: self.selectedRange)
                 }
             }
             .store(in: &cancellables)
         
         statisticFetcher.subject
-            .sink { statistic in
+            .sink { [weak self] statistic in
+                guard let self else { return }
                 Task {
                     try? await self.persistence.saveStatistic(statistic)
                 }

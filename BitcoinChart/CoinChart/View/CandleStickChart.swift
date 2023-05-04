@@ -41,7 +41,7 @@ struct CandleStickChart: View {
                     width: (proxy.size.width / CGFloat(candleSticks.count)) * 0.8)
                 .foregroundStyle(candle.isClosingHigher ? .green : .red)
             }
-            .chartYAxis { AxisMarks(preset: .automatic, values: .stride(by: 500)) }
+            .chartYAxis { AxisMarks(preset: .automatic, values: .stride(by: 100)) }
             .chartYScale(domain: bound)
             .padding(.horizontal)
             .animation(.easeInOut, value: chartData?.intervalRange ?? .fourHour)

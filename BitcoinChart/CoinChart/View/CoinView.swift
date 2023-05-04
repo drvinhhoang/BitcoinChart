@@ -41,25 +41,41 @@ struct CoinView: View {
                 CandleStickChart(chartData: vm.chartData)
                     .frame(width: proxy.size.width)
                     .frame(maxHeight: proxy.size.height * (isPortrait ? 0.5 : 1))
+                    .padding()
+                    .overlay(
+                        Image(systemName: isPortrait ? ImageName.fullScreenIcon : ImageName.minimizeIcon)
+                            .padding()
+                            .offset(x: 10)
+                            .onTapGesture(perform: {
+                                isPortrait.toggle()
+                                changeOrientation(to: isPortrait ? .portrait : .landscape)
+                            })
+                        , alignment: .bottomLeading
+                    )
             }
         }
-        .ignoresSafeArea(edges: .horizontal)
         .onAppear {
             Task {
                 await vm.fetchCoinKlineData()
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-            guard let scene = UIApplication.shared.windows.first?.windowScene else { return }
+            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
             self.isPortrait = scene.interfaceOrientation.isPortrait
         }
+    }
+    
+    func changeOrientation(to orientation: UIInterfaceOrientationMask) {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
+        }
+        scene.requestGeometryUpdate(.iOS(interfaceOrientations: orientation))
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         CoinView()
-            .previewDevice("iPhone 8")
     }
 }
 
@@ -87,7 +103,7 @@ extension CoinView {
             }
             VStack(spacing: 12) {
                 priceView(title: "24h Vol(BTC)", value: vm.statistic24h?.formattedBaseVolume)
-                priceView(title: "24h Vol(BTC)", value: vm.statistic24h?.formattedQuoteVolume)
+                priceView(title: "24h Vol(USDT)", value: vm.statistic24h?.formattedQuoteVolume)
             }
         }
     }

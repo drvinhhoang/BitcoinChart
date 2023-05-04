@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension Collection {
     subscript(safelyIndex i: Index) -> Element? {
@@ -40,4 +41,9 @@ extension Date {
     func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
         return calendar.component(component, from: self)
     }
+}
+
+enum ImageName {
+    static let fullScreenIcon = "arrow.up.left.and.arrow.down.right"
+    static let minimizeIcon = "arrow.down.right.and.arrow.up.left"
 }
