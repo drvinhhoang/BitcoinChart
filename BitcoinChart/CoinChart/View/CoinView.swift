@@ -9,11 +9,17 @@ import SwiftUI
 import Charts
 
 struct CoinView: View {
+    @Environment(\.sizeCategory) var sizeCategory
     @StateObject var vm = CoinViewModel(
         coinFetcher: CoinService(requestManager: RequestManager()),
         statisticFetcher: WebsocketService(),
         coinPersistence: CoinPersistenceService()
     )
+    
+    var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     @State private var isPortrait = true
     var body: some View {
         GeometryReader { proxy in
@@ -25,14 +31,14 @@ struct CoinView: View {
                                 .fontWeight(.bold)
                                 .font(.largeTitle)
                         }
-                        .padding(.top, 40)
-                        HStack(alignment: .center) {
+                        .padding(.top, 50)
+                        HStack(alignment: .center, spacing: isPad ? 40 : 20) {
                             currentPrice
-                            Spacer()
+                                .frame(maxWidth: proxy.size.width * 0.5)
                             statisticView
+                                .frame(maxWidth: proxy.size.width * 0.5)
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity, maxHeight: proxy.size.height * 0.6)
+                        .frame(maxHeight: proxy.size.height * 0.6)
                     }
                     ChooseIntervalView(selectedRange: $vm.selectedRange.animation(.easeInOut))
                 }
@@ -63,11 +69,32 @@ struct CoinView: View {
         }
     }
     
-    func changeOrientation(to orientation: UIInterfaceOrientationMask) {
+    private func changeOrientation(to orientation: UIInterfaceOrientationMask) {
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             return
         }
         scene.requestGeometryUpdate(.iOS(interfaceOrientations: orientation))
+    }
+    
+    private func getSize() -> CGFloat {
+        switch sizeCategory {
+        case .extraSmall:
+            return 16
+        case .small:
+            return 18
+        case .medium:
+            return 20
+        case .large:
+            return 22
+        case .extraLarge:
+            return 24
+        case .extraExtraLarge:
+            return 26
+        case .extraExtraExtraLarge:
+            return 28
+        default:
+            return 20
+        }
     }
 }
 
@@ -83,7 +110,7 @@ extension CoinView {
     private var currentPrice: some View {
         HStack {
             Text(Double(vm.currentPrice)?.asNumberWith2Decimals() ?? "")
-                .font(.title2)
+                .font(isPad ? .system(size: getSize()) : .title2)
                 .fontWeight(.bold)
                 .foregroundColor(.green)
             Text(vm.priceChangePercent.asPercentString())
@@ -107,14 +134,14 @@ extension CoinView {
     }
     
     @ViewBuilder
-    func priceView(title: String?, value: String?) -> some View {
+    private func priceView(title: String?, value: String?) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title ?? "")
-                .font(.caption)
+                .font(isPad ? .system(size: getSize()) : .caption)
                 .fontWeight(.medium)
                 .foregroundColor(.gray)
             Text(value ?? "")
-                .font(.caption)
+                .font(isPad ? .system(size: getSize()) : .caption)
                 .fontWeight(.semibold)
                 .foregroundColor(.black)
         }
