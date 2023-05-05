@@ -25,6 +25,7 @@
 		5A2EB2142A026EA900C1609A /* CandlestickMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2EB2132A026EA900C1609A /* CandlestickMark.swift */; };
 		5A2ECC672A02C0B500B8248C /* WebsocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2ECC662A02C0B500B8248C /* WebsocketService.swift */; };
 		5A3DD0B62A00E40A00EDAE15 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DD0B52A00E40A00EDAE15 /* Double.swift */; };
+		5A48359C2A04846000D31A8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A48359B2A04846000D31A8D /* LaunchScreen.storyboard */; };
 		5A54A5832A01FC1700E507EF /* ServerTimeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A54A5822A01FC1700E507EF /* ServerTimeRequest.swift */; };
 		5A54A5892A020FA100E507EF /* CoinDataContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5A54A5872A020FA100E507EF /* CoinDataContainer.xcdatamodeld */; };
 		5A54A58E2A0217C000E507EF /* CoinPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A54A58D2A0217C000E507EF /* CoinPersistenceService.swift */; };
@@ -34,7 +35,7 @@
 		5AC5A55D29FE4D1D00765C35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5A55C29FE4D1D00765C35 /* Preview Assets.xcassets */; };
 		5AC5A56829FE4F3A00765C35 /* Candelstick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56729FE4F3A00765C35 /* Candelstick.swift */; };
 		5AC5A56B29FE4F8D00765C35 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56A29FE4F8D00765C35 /* Extensions.swift */; };
-		5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56D29FE506D00765C35 /* Websocket.swift */; };
+		5AC5A56E29FE506D00765C35 /* Statistic24h.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5A56D29FE506D00765C35 /* Statistic24h.swift */; };
 		5AD2BB6029FF41CD00CBC4A2 /* CandleStickChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */; };
 		5AD2BB6229FF441100CBC4A2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB6129FF441100CBC4A2 /* Constants.swift */; };
 		5AD2BB6529FF6C7100CBC4A2 /* ChooseIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2BB6429FF6C7100CBC4A2 /* ChooseIntervalView.swift */; };
@@ -60,6 +61,8 @@
 		5A2EB2132A026EA900C1609A /* CandlestickMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlestickMark.swift; sourceTree = "<group>"; };
 		5A2ECC662A02C0B500B8248C /* WebsocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketService.swift; sourceTree = "<group>"; };
 		5A3DD0B52A00E40A00EDAE15 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		5A48359B2A04846000D31A8D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5A48359D2A04850800D31A8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5A54A5822A01FC1700E507EF /* ServerTimeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTimeRequest.swift; sourceTree = "<group>"; };
 		5A54A5882A020FA100E507EF /* CoinDataContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoinDataContainer.xcdatamodel; sourceTree = "<group>"; };
 		5A54A58D2A0217C000E507EF /* CoinPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinPersistenceService.swift; sourceTree = "<group>"; };
@@ -70,7 +73,7 @@
 		5AC5A55C29FE4D1D00765C35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5AC5A56729FE4F3A00765C35 /* Candelstick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Candelstick.swift; sourceTree = "<group>"; };
 		5AC5A56A29FE4F8D00765C35 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		5AC5A56D29FE506D00765C35 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
+		5AC5A56D29FE506D00765C35 /* Statistic24h.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistic24h.swift; sourceTree = "<group>"; };
 		5AD2BB5F29FF41CD00CBC4A2 /* CandleStickChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChart.swift; sourceTree = "<group>"; };
 		5AD2BB6129FF441100CBC4A2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5AD2BB6429FF6C7100CBC4A2 /* ChooseIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIntervalView.swift; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		5A00DD202A011DB9001E8424 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				5AC5A56D29FE506D00765C35 /* Statistic24h.swift */,
 				5AC5A56729FE4F3A00765C35 /* Candelstick.swift */,
 				5A00DD252A011EFE001E8424 /* CurrentPrice.swift */,
 				5A00DD272A011F08001E8424 /* ServerTime.swift */,
@@ -159,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				5A1E14E72A011A4900237B9C /* CoinService.swift */,
-				5AC5A56D29FE506D00765C35 /* Websocket.swift */,
 				5A54A58D2A0217C000E507EF /* CoinPersistenceService.swift */,
 				5A2ECC662A02C0B500B8248C /* WebsocketService.swift */,
 			);
@@ -241,6 +244,7 @@
 		5AC5A55429FE4D1B00765C35 /* BitcoinChart */ = {
 			isa = PBXGroup;
 			children = (
+				5A48359D2A04850800D31A8D /* Info.plist */,
 				5AC5A55529FE4D1B00765C35 /* BitcoinChartApp.swift */,
 				5A3E5B1A2A011C1800C18D30 /* Core */,
 				5A1E14EC2A011A7F00237B9C /* CoinChart */,
@@ -266,6 +270,7 @@
 				5AD2BB6129FF441100CBC4A2 /* Constants.swift */,
 				5AD2BB6629FF6CB100CBC4A2 /* IntervalRange.swift */,
 				5A3DD0B52A00E40A00EDAE15 /* Double.swift */,
+				5A48359B2A04846000D31A8D /* LaunchScreen.storyboard */,
 				5A00DD292A011F8C001E8424 /* Logger.swift */,
 			);
 			path = Helpers;
@@ -341,6 +346,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A48359C2A04846000D31A8D /* LaunchScreen.storyboard in Resources */,
 				5AC5A55D29FE4D1D00765C35 /* Preview Assets.xcassets in Resources */,
 				5AC5A55A29FE4D1D00765C35 /* Assets.xcassets in Resources */,
 			);
@@ -355,7 +361,7 @@
 			files = (
 				5AD2BB6729FF6CB100CBC4A2 /* IntervalRange.swift in Sources */,
 				5AC5A56B29FE4F8D00765C35 /* Extensions.swift in Sources */,
-				5AC5A56E29FE506D00765C35 /* Websocket.swift in Sources */,
+				5AC5A56E29FE506D00765C35 /* Statistic24h.swift in Sources */,
 				5A00DD382A01207F001E8424 /* RequestManager.swift in Sources */,
 				5A2ECC672A02C0B500B8248C /* WebsocketService.swift in Sources */,
 				5A00DD3A2A0120A1001E8424 /* RequestProtocol.swift in Sources */,
@@ -508,15 +514,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BitcoinChart/Preview Content\"";
 				DEVELOPMENT_TEAM = NM9YBSUGNH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BitcoinChart/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -538,15 +546,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BitcoinChart/Preview Content\"";
 				DEVELOPMENT_TEAM = NM9YBSUGNH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BitcoinChart/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
