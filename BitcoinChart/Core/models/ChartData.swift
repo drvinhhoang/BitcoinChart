@@ -12,8 +12,10 @@ struct ChartData {
     let items: [CandleStick]
     var intervalRange: IntervalRange
     let bounds: ClosedRange<Double>
-    var lastOpenPrice: Double? {
-        items.last?.open
+    var changePercent: Double? {
+        guard let last = items.last else { return nil }
+        let change = (last.close - last.open) / last.open
+        return change * 100
     }
     
     init(_ items: [CandleStick], intervalRange: IntervalRange) {

@@ -72,8 +72,7 @@ extension CoinViewModel {
     private func addSubscriptions() {
         addPersistenceSubscriptions()
         $chartData
-            .combineLatest(persistence.currentPrice)
-            .compactMap(calculatePriceChangePercent)
+            .compactMap(\.?.changePercent)
             .receive(on: DispatchQueue.main)
             .assign(to: &$priceChangePercent)
         
@@ -146,13 +145,6 @@ extension CoinViewModel {
 
 // MARK: - HELPERS
 extension CoinViewModel {
-    private func calculatePriceChangePercent(chartData: ChartData?, currentPrice: String) -> Double? {
-        guard let openPrice = chartData?.lastOpenPrice else { return nil }
-        let changePercent = ((Double(currentPrice) ?? 0) - openPrice) / openPrice
-        let percent = changePercent * 100
-        return percent
-    }
-    
     private func convertChartData(_ savedEntities: [CandlestickEntity], interval: IntervalRange) -> ChartData {
         let candlesticks = savedEntities.map { CandleStick(managedObject: $0) }
         return ChartData(candlesticks, intervalRange: interval)
