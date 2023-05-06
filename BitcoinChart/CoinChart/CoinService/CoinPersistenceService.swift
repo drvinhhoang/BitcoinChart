@@ -46,6 +46,8 @@ class CoinPersistenceService: CoinPersistence {
     
     func getStoredCandlesticks(range: IntervalRange) -> [CandlestickEntity] {
         let request = NSFetchRequest<CandlestickEntity>(entityName: EntityName.candleStick.rawValue)
+        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
+        request.sortDescriptors = [sortDescriptor]
         request.predicate = NSPredicate(format: "intervalRange == %@", range.rawValue)
         
         do {
