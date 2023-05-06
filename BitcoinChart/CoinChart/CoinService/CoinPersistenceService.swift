@@ -29,29 +29,34 @@ class CoinPersistenceService: CoinPersistence {
             if let error = error {
                 BCLogger.log("Error loading core data! \(error)")
             }
-            self.updateDisplayData()
+            Task {
+                await self.updateDisplayData()
+            }
         }
     }
     
-    func updateDisplayData(range: IntervalRange = .fourHour) {
-        let candlesticks = self.getStoredCandlesticks(range: range)
-        let savedStatistic: Statistic24hEntity? = try? getStoredData(entityName: .statistic24h, context: container.viewContext).first
-        let savedPrice: CurrentPriceEntity? = try? getStoredData(entityName: .currentPrice, context: container.viewContext).first
-        savedCandlesticks.send(candlesticks)
-        savedStatistic24h.send(savedStatistic)
-        if let price = savedPrice?.currentPrice, !price.isEmpty {
-            currentPrice.send(price)
+    func updateDisplayData(range: IntervalRange = .fourHour) async {
+        await container.performBackgroundTask { [weak self] context in
+            guard let self else { return }
+            let candlesticks = self.getStoredCandlesticks(range: range, context: context)
+            let savedStatistic: Statistic24hEntity? = try? self.getStoredData(entityName: .statistic24h, context: context).first
+            let savedPrice: CurrentPriceEntity? = try? self.getStoredData(entityName: .currentPrice, context: context).first
+            self.savedCandlesticks.send(candlesticks)
+            self.savedStatistic24h.send(savedStatistic)
+            if let price = savedPrice?.currentPrice, !price.isEmpty {
+                self.currentPrice.send(price)
+            }
         }
     }
     
-    func getStoredCandlesticks(range: IntervalRange) -> [CandlestickEntity] {
+    func getStoredCandlesticks(range: IntervalRange, context: NSManagedObjectContext) -> [CandlestickEntity] {
         let request = NSFetchRequest<CandlestickEntity>(entityName: EntityName.candleStick.rawValue)
         let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
         request.sortDescriptors = [sortDescriptor]
         request.predicate = NSPredicate(format: "intervalRange == %@", range.rawValue)
         
         do {
-            let savedCandlesticks = try container.viewContext.fetch(request)
+            let savedCandlesticks = try context.fetch(request)
             return savedCandlesticks
         } catch let error {
             BCLogger.log("Error fetching Portfolio Entities: \(error)")
@@ -70,8 +75,8 @@ class CoinPersistenceService: CoinPersistence {
     
     func save(candlesticks: [CandleStick], interval: IntervalRange) async throws {
         guard !candlesticks.isEmpty else { return }
-        let savedEntities = getStoredCandlesticks(range: interval)
         try await container.performBackgroundTask { context in
+            let savedEntities = self.getStoredCandlesticks(range: interval, context: context)
             if !savedEntities.isEmpty {
                 let request = NSFetchRequest<NSFetchRequestResult>(entityName: EntityName.candleStick.rawValue)
                 request.predicate = NSPredicate(format: "intervalRange == %@", interval.rawValue)
@@ -82,7 +87,7 @@ class CoinPersistenceService: CoinPersistence {
                 candlestick.toManagedObject(context: context)
             }
             self.save(context: context)
-            let candlesticks = self.getStoredCandlesticks(range: interval)
+            let candlesticks = self.getStoredCandlesticks(range: interval, context: context)
             self.savedCandlesticks.send(candlesticks)
         }
     }

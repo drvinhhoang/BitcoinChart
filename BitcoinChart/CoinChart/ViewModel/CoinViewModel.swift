@@ -25,7 +25,7 @@ protocol CoinPersistence {
     func save(candlesticks: [CandleStick], interval: IntervalRange) async throws
     func saveCurrentPrice(_ price: CurrentPrice?) async throws
     func saveStatistic(_ statistic: Statistic24h?) async throws
-    func updateDisplayData(range: IntervalRange)
+    func updateDisplayData(range: IntervalRange) async
 }
 
 final class CoinViewModel: ObservableObject {
@@ -98,7 +98,6 @@ extension CoinViewModel {
     
     private func addPersistenceSubscriptions() {
         persistence.savedCandlesticks
-            .combineLatest($selectedRange)
             .map(convertChartData)
             .receive(on: DispatchQueue.main)
             .assign(to: &$chartData)
@@ -129,7 +128,7 @@ extension CoinViewModel {
             try await persistence.save(candlesticks: candlesticks, interval: interval)
         } catch {
             BCLogger.log(error.localizedDescription)
-            persistence.updateDisplayData(range: interval)
+            await persistence.updateDisplayData(range: interval)
         }
     }
     
@@ -145,9 +144,11 @@ extension CoinViewModel {
 
 // MARK: - HELPERS
 extension CoinViewModel {
-    private func convertChartData(_ savedEntities: [CandlestickEntity], interval: IntervalRange) -> ChartData {
+    private func convertChartData(_ savedEntities: [CandlestickEntity]) -> ChartData? {
         let candlesticks = savedEntities.map { CandleStick(managedObject: $0) }
-        return ChartData(candlesticks, intervalRange: interval)
+        guard let intervalRange = candlesticks.first?.intervalRange else { return nil }
+        guard let range = IntervalRange(rawValue: intervalRange) else { return nil }
+        return ChartData(candlesticks, intervalRange: range)
     }
     
     func showLoading(_ show: Bool) async {
