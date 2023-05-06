@@ -32,7 +32,7 @@ final class CoinViewModel: ObservableObject {
     private var selectRangeTask: Task<(), Error>?
     private var intervalUpdateTask: Task<(), Error>?
     private let timer = Timer
-        .publish(every: 2, on: .main, in: .common)
+        .publish(every: 5, on: .main, in: .common)
         .autoconnect()
     private var cancellables = Set<AnyCancellable>()
     private let coinFetcher: CoinFetcher
@@ -72,7 +72,7 @@ extension CoinViewModel {
     private func addSubscriptions() {
         addPersistenceSubscriptions()
         $chartData
-            .combineLatest($currentPrice)
+            .combineLatest(persistence.currentPrice)
             .compactMap(calculatePriceChangePercent)
             .receive(on: DispatchQueue.main)
             .assign(to: &$priceChangePercent)
