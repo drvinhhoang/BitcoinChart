@@ -139,11 +139,11 @@ extension CoinView {
             Text(title ?? "")
                 .font(isPad ? .system(size: getSize()) : .caption)
                 .fontWeight(.medium)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
             Text(value ?? "")
                 .font(isPad ? .system(size: getSize()) : .caption)
                 .fontWeight(.semibold)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
     }
 }
