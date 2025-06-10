@@ -3,23 +3,28 @@
 //  BitcoinChart
 //
 //  Created by VinhHoang on 30/04/2023.
-//
+//  Updated by Codex
 
 import SwiftUI
 import Charts
 
 struct CoinView: View {
+    let symbol: String
     @Environment(\.sizeCategory) var sizeCategory
-    @StateObject var vm = CoinViewModel(
-        coinFetcher: CoinService(requestManager: RequestManager()),
-        statisticFetcher: WebsocketService(),
-        coinPersistence: CoinPersistenceService()
-    )
-    
+    @StateObject var vm: CoinViewModel
+
+    init(symbol: String) {
+        self.symbol = symbol
+        _vm = StateObject(wrappedValue: CoinViewModel(symbol: symbol,
+                                                    coinFetcher: CoinService(requestManager: RequestManager()),
+                                                    statisticFetcher: WebsocketService(),
+                                                    coinPersistence: CoinPersistenceService()))
+    }
+
     var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
-    
+
     @State private var isPortrait = true
     var body: some View {
         GeometryReader { proxy in
@@ -27,7 +32,7 @@ struct CoinView: View {
                 if isPortrait {
                     VStack {
                         HStack {
-                            Text("BTC/USDT")
+                            Text(symbol)
                                 .fontWeight(.bold)
                                 .font(.largeTitle)
                         }
@@ -68,14 +73,14 @@ struct CoinView: View {
             self.isPortrait = scene.interfaceOrientation.isPortrait
         }
     }
-    
+
     private func changeOrientation(to orientation: UIInterfaceOrientationMask) {
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             return
         }
         scene.requestGeometryUpdate(.iOS(interfaceOrientations: orientation))
     }
-    
+
     private func getSize() -> CGFloat {
         switch sizeCategory {
         case .extraSmall:
@@ -100,7 +105,7 @@ struct CoinView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CoinView()
+        CoinView(symbol: "BTCUSDT")
     }
 }
 
@@ -119,7 +124,7 @@ extension CoinView {
                 .foregroundColor(vm.priceChangePercent.asNumberString() >= "0" ? .green : .red)
         }
     }
-    
+
     private var statisticView: some View {
         HStack(spacing: 20) {
             VStack(spacing: 12) {
@@ -127,12 +132,12 @@ extension CoinView {
                 priceView(title: "24h Low", value: vm.statistic24h?.formattedLow)
             }
             VStack(spacing: 12) {
-                priceView(title: "24h Vol(BTC)", value: vm.statistic24h?.formattedBaseVolume)
+                priceView(title: "24h Vol", value: vm.statistic24h?.formattedBaseVolume)
                 priceView(title: "24h Vol(USDT)", value: vm.statistic24h?.formattedQuoteVolume)
             }
         }
     }
-    
+
     @ViewBuilder
     private func priceView(title: String?, value: String?) -> some View {
         VStack(alignment: .leading, spacing: 8) {
