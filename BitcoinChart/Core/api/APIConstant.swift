@@ -8,5 +8,7 @@
 import Foundation
 
 enum APIConstants {
-    static let host = "data.binance.com"
+    /// Binance moved its public API to `data-api.binance.vision`.
+    /// Update the base host so requests succeed.
+    static let host = "data-api.binance.vision"
 }
