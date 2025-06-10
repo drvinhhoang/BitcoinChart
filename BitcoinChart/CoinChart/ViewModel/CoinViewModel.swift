@@ -3,15 +3,16 @@
 //  BitcoinChart
 //
 //  Created by VinhHoang on 02/05/2023.
-//
+//  Updated by Codex
 
 import Combine
 import CoreData
 
 protocol CoinFetcher {
-    func fetchCoinKlineData(interval: String, endTime: String, limit: String) async throws -> [CoinData]
+    func fetchCoinKlineData(symbol: String, interval: String, endTime: String, limit: String) async throws -> [CoinData]
     func getServerTime() async throws -> String?
-    func getCurrentPrice() async -> CurrentPrice?
+    func getCurrentPrice(symbol: String) async -> CurrentPrice?
+    func fetchAllPrices() async throws -> [CoinSimple]
 }
 
 protocol StatisticFetcher {
@@ -38,7 +39,8 @@ final class CoinViewModel: ObservableObject {
     private let coinFetcher: CoinFetcher
     private let persistence: CoinPersistence
     private let statisticFetcher: StatisticFetcher
-    
+    let symbol: String
+
     @Published @MainActor var priceChangePercent: Double = 0.00
     @Published @MainActor var chartData: ChartData? = nil
     @Published @MainActor var currentPrice: String = ""
@@ -55,8 +57,12 @@ final class CoinViewModel: ObservableObject {
             }
         }
     }
-    
-    init(coinFetcher: CoinFetcher, statisticFetcher: StatisticFetcher, coinPersistence: CoinPersistence) {
+
+    init(symbol: String,
+         coinFetcher: CoinFetcher,
+         statisticFetcher: StatisticFetcher,
+         coinPersistence: CoinPersistence) {
+        self.symbol = symbol
         self.coinFetcher = coinFetcher
         self.persistence = coinPersistence
         self.statisticFetcher = statisticFetcher
@@ -75,7 +81,7 @@ extension CoinViewModel {
             .compactMap(\.?.changePercent)
             .receive(on: DispatchQueue.main)
             .assign(to: &$priceChangePercent)
-        
+
         timer
             .sink { [weak self] _ in
                 guard let self else { return }
@@ -85,7 +91,7 @@ extension CoinViewModel {
                 }
             }
             .store(in: &cancellables)
-        
+
         statisticFetcher.subject
             .sink { [weak self] statistic in
                 guard let self else { return }
@@ -95,20 +101,20 @@ extension CoinViewModel {
             }
             .store(in: &cancellables)
     }
-    
+
     private func addPersistenceSubscriptions() {
         persistence.savedCandlesticks
             .map(convertChartData)
             .receive(on: DispatchQueue.main)
             .assign(to: &$chartData)
-        
+
         persistence.savedStatistic24h
             .compactMap({ savedObject in
                 Statistic24h(managedObject: savedObject)
             })
             .receive(on: DispatchQueue.main)
             .assign(to: &$statistic24h)
-        
+
         persistence.currentPrice
             .receive(on: DispatchQueue.main)
             .assign(to: &$currentPrice)
@@ -123,7 +129,7 @@ extension CoinViewModel {
             guard let serverTime else {
                 return
             }
-            let klineData = try await coinFetcher.fetchCoinKlineData(interval: interval.rawValue, endTime: serverTime, limit: String(interval.candleCount))
+            let klineData = try await coinFetcher.fetchCoinKlineData(symbol: symbol, interval: interval.rawValue, endTime: serverTime, limit: String(interval.candleCount))
             let candlesticks = klineData.compactMap { $0.toCandleStick(with: interval) }
             try await persistence.save(candlesticks: candlesticks, interval: interval)
         } catch {
@@ -131,13 +137,22 @@ extension CoinViewModel {
             await persistence.updateDisplayData(range: interval)
         }
     }
-    
+
     private func getCurrentPrice() async {
-        let currentPrice = await coinFetcher.getCurrentPrice()
+        let currentPrice = await coinFetcher.getCurrentPrice(symbol: symbol)
         do {
             try await persistence.saveCurrentPrice(currentPrice)
         } catch {
             BCLogger.log(error.localizedDescription)
+        }
+    }
+
+    func fetchAllCoins() async -> [CoinSimple] {
+        do {
+            return try await coinFetcher.fetchAllPrices()
+        } catch {
+            BCLogger.log(error.localizedDescription)
+            return []
         }
     }
 }
@@ -150,7 +165,7 @@ extension CoinViewModel {
         guard let range = IntervalRange(rawValue: intervalRange) else { return nil }
         return ChartData(candlesticks, intervalRange: range)
     }
-    
+
     func showLoading(_ show: Bool) async {
         await MainActor.run {
             isLoading = show
